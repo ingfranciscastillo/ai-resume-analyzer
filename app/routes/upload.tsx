@@ -12,6 +12,7 @@ import {useNavigate} from "react-router";
 import {convertPdfToImage} from "@/lib/pdf2img";
 import {generateUUID} from "@/lib/utils";
 import {prepareInstructions} from "../../constants";
+import {TextEffect} from "@/components/ui/text-effect";
 
 const Upload = () => {
 
@@ -105,11 +106,13 @@ const Upload = () => {
             </h1>
             {isProcessing ? (
               <>
-                <h2>{statusText}</h2>
+                  <div className={"text-lg font-semibold mt-2"}>
+                    <TextEffect per={"char"} preset={"fade"}>{statusText}</TextEffect>
+                  </div>
                 <img
                   src={"/images/search.gif"}
                   alt="Search"
-                  className={"w-32 mx-auto mt-2"}
+                  className={"w-full mx-auto mt-2"}
                 />
               </>
             ) : (
