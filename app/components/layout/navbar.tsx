@@ -59,7 +59,7 @@ const Navbar = () => {
                                     asChild
                                     variant="default"
                                     size="sm">
-                                    <Link to="#">
+                                    <Link to="/upload">
                                         <span>Upload Resume</span>
                                     </Link>
                                 </Button>

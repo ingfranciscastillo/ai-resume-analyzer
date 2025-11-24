@@ -40,3 +40,5 @@ export function formatSize(bytes: number): string {
 
   return `${negative ? "-" : ""}${formatted} ${units[unitIndex]}`
 }
+
+export const generateUUID = () => crypto.randomUUID()
