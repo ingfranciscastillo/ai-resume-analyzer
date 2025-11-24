@@ -3,12 +3,10 @@ import React, {useState} from 'react'
 import {Link} from "react-router";
 import {Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button";
+import {ModeToggle} from "@/components/mode-toggle";
 
 const menuItems = [
-    { name: 'Features', href: '#' },
-    { name: 'Solution', href: '#' },
-    { name: 'Pricing', href: '#' },
-    { name: 'About', href: '#' },
+    { name: 'About', href: '/about' },
 ]
 
 const Navbar = () => {
@@ -53,6 +51,8 @@ const Navbar = () => {
                                     ))}
                                 </ul>
                             </div>
+
+                            <ModeToggle/>
 
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
                                 <Button

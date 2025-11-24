@@ -39,14 +39,14 @@ export default function HeroSection() {
                             <div className="lg:h-176 rotate-x-20 mask-b-from-55% mask-b-to-100% mask-r-from-75% skew-x-12 pl-6 pt-6">
                                 <img
                                     className="rounded-(--radius) border shadow-xl dark:hidden"
-                                    src="/card.png"
+                                    src="/hero.png"
                                     alt="Tailark hero section"
                                     width={2880}
                                     height={2074}
                                 />
                                 <img
                                     className="rounded-(--radius) hidden border shadow-xl dark:block"
-                                    src="/dark-card.webp"
+                                    src="/hero-dark.png"
                                     alt="Tailark hero section"
                                     width={2880}
                                     height={2074}
