@@ -110,8 +110,8 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
                 <img className={"size-8"} src={"images/info.png"} alt={""} />
               </div>
               <p className={"text-md text-gray-500"}>
-                <span className={"font-semibold"}>Click to upload </span>
-                or drag and drop
+                <span className={"font-semibold"}>Haz clic para subir </span>
+                  o arrastra y suelta
               </p>
               <p className={"text-sm text-gray-500"}>
                 PDF (max {formatSize(maxFileSize)})

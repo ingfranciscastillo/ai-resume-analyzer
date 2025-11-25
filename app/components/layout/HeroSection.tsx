@@ -1,13 +1,8 @@
 'use client'
 import Navbar from "@/components/layout/navbar";
-import {Button} from "@/components/ui/button";
-import {Link} from "react-router";
-import {usePuterStore} from "@/lib/puter";
 import {TextEffect} from "@/components/ui/text-effect";
 
 export default function HeroSection() {
-
-    const {auth} = usePuterStore()
 
     return (
         <>
@@ -30,7 +25,7 @@ export default function HeroSection() {
                                 speedSegment={0.3}
                                 as="h1"
                                 className="mt-8 max-w-2xl text-balance text-5xl font-medium md:text-6xl lg:mt-16">
-                                Track your Applications & Resume Ratings
+                                Haz seguimiento de tus postulaciones y calificaciones de currículums.
                             </TextEffect>
                             <TextEffect
                                 per="line"
@@ -39,38 +34,10 @@ export default function HeroSection() {
                                 delay={0.5}
                                 as="p"
                                 className="mt-8 max-w-2xl text-pretty text-lg">
-                                Review your submissions and check AI-powered feedback.
+                                Revisa tus envíos y consulta el feedback generado por IA.
                             </TextEffect>
-
-                            {
-                                !auth.isAuthenticated && (
-                                    <div className={"mt-12 flex items-center gap-2"}>
-                                        <Button variant={"default"} size={"lg"}>
-                                            Comienza ahora
-                                        </Button>
-                                    </div>
-                                )
-                            }
                         </div>
                     </div>
-                    {
-                        !auth.isAuthenticated && (
-                            <div className="mask-b-from-55% relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20">
-                                <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-5xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
-                                    <img
-                                        className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                                        src="/hero-dark.png"
-                                        alt="app screen"
-                                    />
-                                    <img
-                                        className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                                        src="/hero.png"
-                                        alt="app screen"
-                                    />
-                                </div>
-                            </div>
-                        )
-                    }
 
                 </div>
             </section>

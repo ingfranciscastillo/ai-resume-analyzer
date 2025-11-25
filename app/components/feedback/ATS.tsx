@@ -26,11 +26,10 @@ const ATS = ({
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
                 <p className="font-medium text-xl text-foreground">
-                    How well does your resume pass through Applicant Tracking Systems?
+                    ¿Qué tan bien pasa tu currículum por los Sistemas de Seguimiento de Candidatos (ATS)?
                 </p>
                 <p className="text-lg text-muted-foreground">
-                    Your resume was scanned like an employer would. Here's how it
-                    performed:
+                    Tu currículum fue analizado como lo haría un empleador. Así fue su desempeño:
                 </p>
                 {suggestions.map((suggestion, index) => (
                     <div className="flex flex-row gap-2 items-center" key={index}>
@@ -50,8 +49,7 @@ const ATS = ({
             </CardContent>
             <CardFooter>
                 <p className="text-lg text-muted-foreground">
-                    Want a better score? Improve your resume by applying the suggestions
-                    listed below.
+                    ¿Quieres una mejor puntuación? Mejora tu currículum aplicando las sugerencias listadas a continuación.
                 </p>
             </CardFooter>
         </Card>

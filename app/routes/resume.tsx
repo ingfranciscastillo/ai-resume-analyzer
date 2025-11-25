@@ -11,8 +11,8 @@ import {ModeToggle} from "@/components/mode-toggle";
 
 export function meta({}: Route.MetaArgs) {
     return [
-        { title: "Resumind | Review" },
-        { name: "description", content: "Detailed overview of your resume" },
+        { title: "ResumeSense | Review" },
+        { name: "description", content: "Detailed overview of your resume." },
     ];
 }
 
@@ -68,7 +68,7 @@ const Resume = () => {
                                         to="/"
                                         aria-label="home"
                                         className="flex items-center space-x-2 font-bold uppercase text-primary">
-                                        Back to Home
+                                        Volver al inicio
                                     </Link>
                                 </Button>
                             </div>
@@ -97,7 +97,7 @@ const Resume = () => {
                                 }
                             </section>
                             <section className={"flex flex-col gap-8 w-1/2 px-8 max-lg:w-full py-6"}>
-                                <h2 className="text-4xl text-primary font-bold">Resume Review</h2>
+                                <h2 className="text-4xl text-primary font-bold">Revisión de currículum</h2>
                                 {feedback ? (
                                     <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
                                         <Summary feedback={feedback} />

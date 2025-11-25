@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const menuItems = [
-    { name: 'Features', href: '#features' },
-    { name: 'About', href: '#' },
+    { name: 'Caracteristicas', href: '#features' },
+    { name: 'Sobre nosotros', href: '/about' },
 ]
 
 const Navbar = () => {
@@ -36,7 +36,7 @@ const Navbar = () => {
                                 to="/"
                                 aria-label="home"
                                 className="flex items-center space-x-2 uppercase font-black tracking-wider">
-                                Resumind
+                                ResumeSense
                             </Link>
 
                             <button
@@ -71,7 +71,7 @@ const Navbar = () => {
                                     asChild
                                     size="sm">
                                     <Link to="/upload">
-                                        <span>Upload Resume</span>
+                                        <span>Subir curriculum</span>
                                     </Link>
                                 </Button>
                                         <DropdownMenu>
@@ -88,7 +88,7 @@ const Navbar = () => {
                                             <DropdownMenuContent>
                                                 <DropdownMenuGroup>
                                                     <DropdownMenuItem onClick={auth.signOut}>
-                                                        Sign out
+                                                        Salir
                                                     </DropdownMenuItem>
                                                 </DropdownMenuGroup>
                                             </DropdownMenuContent>

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Resumind | Login" },
+    { title: "ResumeSense | Login" },
     { name: "description", content: "Log into your account!" },
   ];
 }

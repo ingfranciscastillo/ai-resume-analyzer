@@ -23,7 +23,7 @@ const ResumeCard = ({resume}: {resume: Resume}) => {
     }, [resume.imagePath]);
 
     return (
-        <Link to={`/resume/${resume?.id}`} className={"block h-full"}>
+        <Link to={`/resume/${resume?.id}`} className={"block h-full animate-in fade-in duration-1000"}>
             <Card className={"h-full cursor-pointer"}>
                 <CardHeader>
                     {resume.companyName && <CardTitle className={"text-primary"}> {resume.companyName} </CardTitle>}
@@ -36,7 +36,7 @@ const ResumeCard = ({resume}: {resume: Resume}) => {
                 {
                     resume.imagePath && (
                         <CardContent className={"animate-in fade-in duration-1000"}>
-                            <img className="w-full h-[350px] max-sm:h-[200px] object-cover" src={resumeUrl} alt={"Resume"} />
+                            <img className="w-full h-[350px] max-sm:h-[200px] object-cover object-top" src={resumeUrl} alt={"Resume"} />
                         </CardContent>
                     )
                 }
