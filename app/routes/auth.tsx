@@ -18,7 +18,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.isAuthenticated) navigate(next);
+    if (auth.isAuthenticated) navigate(next || "/");
   }, [auth.isAuthenticated, next]);
 
   return (

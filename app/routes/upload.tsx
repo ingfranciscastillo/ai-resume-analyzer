@@ -1,5 +1,5 @@
 "use client";
-import { useState, type FormEvent } from "react";
+import {useState, type FormEvent, useEffect} from "react";
 import Navbar from "@/components/layout/navbar";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,6 @@ import {useNavigate} from "react-router";
 import {convertPdfToImage} from "@/lib/pdf2img";
 import {generateUUID} from "@/lib/utils";
 import {prepareInstructions} from "../../constants";
-import {TextEffect} from "@/components/ui/text-effect";
 
 const Upload = () => {
 
@@ -101,13 +100,11 @@ const Upload = () => {
       <section className="py-16 md:py-32">
         <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
           <div className="relative z-10 mx-auto max-w-2xl text-center">
-            <h1 className="text-balance text-4xl font-semibold md:text-5xl lg:text-6xl">
-              Smart Feedback for your dream job
-            </h1>
+
             {isProcessing ? (
               <>
                   <div className={"text-lg font-semibold mt-2"}>
-                    <TextEffect per={"char"} preset={"fade"}>{statusText}</TextEffect>
+                    <h2>{statusText}</h2>
                   </div>
                 <img
                   src={"/images/search.gif"}
@@ -116,9 +113,14 @@ const Upload = () => {
                 />
               </>
             ) : (
-              <p className="text-muted-foreground mx-auto my-8 max-w-2xl text-xl">
-                Drop your resume for an ATS Score and Improvement tips
-              </p>
+                <>
+                    <h1 className="text-balance text-4xl font-semibold md:text-5xl lg:text-6xl">
+                        Smart Feedback for your dream job
+                    </h1>
+                  <p className="text-muted-foreground mx-auto my-8 max-w-2xl text-xl">
+                    Drop your resume for an ATS Score and Improvement tips
+                  </p>
+                </>
             )}
             {!isProcessing ? (
               <div className={"w-full max-w-md mx-auto"}>
@@ -164,7 +166,7 @@ const Upload = () => {
                     </Field>
 
                     <Field orientation={"horizontal"}>
-                      <Button type={"submit"} variant={"default"}>
+                      <Button type={"submit"} variant={"default"} className={"w-full"}>
                         Analyze Resume
                       </Button>
                     </Field>

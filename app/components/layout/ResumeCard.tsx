@@ -23,8 +23,8 @@ const ResumeCard = ({resume}: {resume: Resume}) => {
     }, [resume.imagePath]);
 
     return (
-        <Link to={`/resume/${resume?.id}`}>
-            <Card>
+        <Link to={`/resume/${resume?.id}`} className={"block h-full"}>
+            <Card className={"h-full cursor-pointer"}>
                 <CardHeader>
                     {resume.companyName && <CardTitle className={"text-primary"}> {resume.companyName} </CardTitle>}
                     {resume.jobTitle && <CardDescription className={"text-foreground"}>{resume.jobTitle}</CardDescription>}

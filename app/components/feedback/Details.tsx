@@ -5,6 +5,7 @@ import {
     AccordionHeader,
     AccordionItem,
 } from "../Accordion";
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
 
 const ScoreBadge = ({ score }: { score: number }) => {
     return (
@@ -12,10 +13,10 @@ const ScoreBadge = ({ score }: { score: number }) => {
             className={cn(
                 "flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]",
                 score > 69
-                    ? "bg-badge-green"
-                    : score > 39
-                        ? "bg-badge-yellow"
-                        : "bg-badge-red"
+                    ? "bg-[#d5faf1]"
+                    : score > 49
+                        ? "bg-[#fceed8]"
+                        : "bg-[#f9e3e2]"
             )}
         >
             <img
@@ -27,10 +28,10 @@ const ScoreBadge = ({ score }: { score: number }) => {
                 className={cn(
                     "text-sm font-medium",
                     score > 69
-                        ? "text-badge-green-text"
-                        : score > 39
-                            ? "text-badge-yellow-text"
-                            : "text-badge-red-text"
+                        ? "text-[#254d4a]"
+                        : score > 49
+                            ? "text-[#73321b]"
+                            : "text-[#752522]"
                 )}
             >
                 {score}/100
@@ -61,7 +62,7 @@ const CategoryContent = ({
 }) => {
     return (
         <div className="flex flex-col gap-4 items-center w-full">
-            <div className="bg-gray-50 w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
+            <div className="w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
                 {tips.map((tip, index) => (
                     <div className="flex flex-row gap-2 items-center" key={index}>
                         <img
@@ -77,7 +78,7 @@ const CategoryContent = ({
             </div>
             <div className="flex flex-col gap-4 w-full">
                 {tips.map((tip, index) => (
-                    <div
+                    <Card
                         key={index + tip.tip}
                         className={cn(
                             "flex flex-col gap-2 rounded-2xl p-4",
@@ -86,7 +87,7 @@ const CategoryContent = ({
                                 : "bg-yellow-50 border border-yellow-200 text-yellow-700"
                         )}
                     >
-                        <div className="flex flex-row gap-2 items-center">
+                        <CardHeader className={"flex items-center gap-2"}>
                             <img
                                 src={
                                     tip.type === "good"
@@ -96,10 +97,12 @@ const CategoryContent = ({
                                 alt="score"
                                 className="size-5"
                             />
-                            <p className="text-xl font-semibold">{tip.tip}</p>
-                        </div>
-                        <p>{tip.explanation}</p>
-                    </div>
+                            <p className="text-pretty text-xl font-semibold">{tip.tip}</p>
+                        </CardHeader>
+                        <CardContent>
+                            <p className={"text-pretty"}>{tip.explanation}</p>
+                        </CardContent>
+                    </Card>
                 ))}
             </div>
         </div>

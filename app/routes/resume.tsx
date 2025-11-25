@@ -7,6 +7,7 @@ import {usePuterStore} from "@/lib/puter";
 import Summary from "@/components/feedback/Summary";
 import ATS from "@/components/feedback/ATS";
 import Details from "@/components/feedback/Details";
+import {ModeToggle} from "@/components/mode-toggle";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -71,6 +72,7 @@ const Resume = () => {
                                     </Link>
                                 </Button>
                             </div>
+                            <ModeToggle/>
                         </div>
                     </div>
                 </nav>
@@ -95,7 +97,7 @@ const Resume = () => {
                                 }
                             </section>
                             <section className={"flex flex-col gap-8 w-1/2 px-8 max-lg:w-full py-6"}>
-                                <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
+                                <h2 className="text-4xl text-primary font-bold">Resume Review</h2>
                                 {feedback ? (
                                     <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
                                         <Summary feedback={feedback} />

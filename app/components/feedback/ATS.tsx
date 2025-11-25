@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 
 const ATS = ({
                  score,
@@ -8,17 +9,8 @@ const ATS = ({
     suggestions: { type: "good" | "improve"; tip: string }[];
 }) => {
     return (
-        <div
-            className={cn(
-                "rounded-2xl shadow-md w-full bg-gradient-to-b to-light-white p-8 flex flex-col gap-4",
-                score > 69
-                    ? "from-green-100"
-                    : score > 49
-                        ? "from-yellow-100"
-                        : "from-red-100"
-            )}
-        >
-            <div className="flex flex-row gap-4 items-center">
+        <Card>
+            <CardHeader className="flex flex-row gap-4 items-center">
                 <img
                     src={
                         score > 69
@@ -30,13 +22,13 @@ const ATS = ({
                     alt="ATS"
                     className="w-10 h-10"
                 />
-                <p className="text-2xl font-semibold">ATS Score - {score}/100</p>
-            </div>
-            <div className="flex flex-col gap-2">
-                <p className="font-medium text-xl">
+                <CardTitle className="text-2xl font-semibold text-muted-foreground">ATS Score - {score}/100</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-2">
+                <p className="font-medium text-xl text-foreground">
                     How well does your resume pass through Applicant Tracking Systems?
                 </p>
-                <p className="text-lg text-gray-500">
+                <p className="text-lg text-muted-foreground">
                     Your resume was scanned like an employer would. Here's how it
                     performed:
                 </p>
@@ -51,15 +43,18 @@ const ATS = ({
                             alt="ATS"
                             className="w-4 h-4"
                         />
-                        <p className="text-lg text-gray-500">{suggestion.tip}</p>
+                        <p className="text-lg text-muted-foreground">{suggestion.tip}</p>
                     </div>
                 ))}
-                <p className="text-lg text-gray-500">
+
+            </CardContent>
+            <CardFooter>
+                <p className="text-lg text-muted-foreground">
                     Want a better score? Improve your resume by applying the suggestions
                     listed below.
                 </p>
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     );
 };
 

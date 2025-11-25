@@ -1,37 +1,48 @@
 'use client'
 import React, {useState} from 'react'
 import {Link} from "react-router";
-import {Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {ModeToggle} from "@/components/mode-toggle";
+import {usePuterStore} from "@/lib/puter";
+import {Menu, X} from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 const menuItems = [
-    { name: 'About', href: '/about' },
+    { name: 'Features', href: '#features' },
+    { name: 'About', href: '#' },
 ]
 
 const Navbar = () => {
 
+    const {auth} = usePuterStore();
+
     const [menuState, setMenuState] = useState(false)
 
     return (
-        <header>
+        <header className={"relative z-50"}>
             <nav
                 data-state={menuState && 'active'}
-                className="fixed z-20 w-full border-b border-dashed bg-white backdrop-blur md:relative dark:bg-zinc-950/50 lg:dark:bg-transparent">
+                className="fixed w-full border-b border-dashed bg-white backdrop-blur md:relative dark:bg-zinc-950/50 lg:dark:bg-transparent">
                 <div className="m-auto max-w-5xl px-6">
                     <div className="flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-                        <div className="flex w-full justify-between lg:w-auto">
+                        <div className="flex w-full justify-between lg:w-auto z-50">
                             <Link
                                 to="/"
                                 aria-label="home"
-                                className="flex items-center space-x-2 font-bold uppercase text-primary">
+                                className="flex items-center space-x-2 uppercase font-black tracking-wider">
                                 Resumind
                             </Link>
 
                             <button
                                 onClick={() => setMenuState(!menuState)}
                                 aria-label={menuState ? 'Close Menu' : 'Open Menu'}
-                                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
+                                className="relative -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
                                 <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
                                 <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
                             </button>
@@ -55,14 +66,34 @@ const Navbar = () => {
                             <ModeToggle/>
 
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
+
                                 <Button
                                     asChild
-                                    variant="default"
                                     size="sm">
                                     <Link to="/upload">
                                         <span>Upload Resume</span>
                                     </Link>
                                 </Button>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    asChild
+                                                    size="sm">
+                                                    <Link to="/auth">
+                                                        <span className={"uppercase"}>{auth.user?.username[0]} </span>
+                                                    </Link>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuGroup>
+                                                    <DropdownMenuItem onClick={auth.signOut}>
+                                                        Sign out
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuGroup>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+
                             </div>
                         </div>
                     </div>
