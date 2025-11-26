@@ -99,12 +99,11 @@ ai-resume-analyzer/
 
 ## 💡 Cómo Usar
 
-1. **Autenticación** - Inicia sesión con tu cuenta de Puter.js
-2. **Carga tu CV** - Sube un archivo PDF, DOCX o pega el contenido directamente
+1. **Autenticación** - Inicia sesión con tu cuenta de Puter.
+2. **Carga tu CV** - Sube un archivo PDF.
 3. **Análisis Automático** - Puter.js analiza tu CV en segundos
 4. **Revisa tu Puntuación** - Observa tu calificación general y detallada
 5. **Lee Recomendaciones** - Obtén sugerencias específicas de mejora
-6. **Descarga tu Reporte** - Guarda el análisis completo para referencia
 
 ## 📊 Ejemplo de Análisis
 
