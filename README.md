@@ -1,87 +1,137 @@
-# Welcome to React Router!
+# 🤖 AI Resume Analyzer
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Una aplicación moderna y potente que utiliza inteligencia artificial para analizar, evaluar y mejorar currículos vitae. Obtén retroalimentación instantánea sobre tu CV con puntuaciones detalladas, áreas de mejora y recomendaciones personalizadas.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## ✨ Características
 
-## Features
+- **Análisis Inteligente de CVs** - Análisis impulsado por IA que evalúa estructura, contenido y claridad
+- **Puntuación Detallada** - Recibe calificaciones en múltiples categorías (experiencia, habilidades, formato, etc.)
+- **Recomendaciones Personalizadas** - Sugerencias concretas para mejorar tu CV
+- **Comparativa con Ofertas** - Analiza qué tan bien se ajusta tu CV a descripciones de empleo
+- **Interfaz Intuitiva** - Diseño limpio y fácil de usar con TailwindCSS
+- **Respuesta en Tiempo Real** - Feedback instantáneo mientras escribes o cargas documentos
+- **Exportar Resultados** - Descarga un reporte completo de tu análisis
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## 🛠️ Stack Tecnológico
 
-## Getting Started
+- **Frontend**: React + React Router
+- **Styling**: TailwindCSS
+- **Backend**: Node.js (integrado con React Router)
+- **IA**: Puter.js para análisis inteligente
+- **Autenticación**: Puter.js para gestión de usuarios
+- **Bundling**: Vite con HMR
+- **Tipado**: TypeScript
+- **Contenerización**: Docker (listo para producción)
 
-### Installation
+## 🚀 Inicio Rápido
 
-Install the dependencies:
+### Requisitos Previos
+- Node.js 18+ instalado
+- npm o pnpm
+- Git
 
+### Instalación
+
+1. Clona el repositorio:
+```bash
+git clone https://github.com/ingfranciscastillo/ai-resume-analyzer.git
+cd ai-resume-analyzer
+```
+
+2. Instala las dependencias:
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
-
+3. Inicia el servidor de desarrollo:
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+La aplicación estará disponible en `http://localhost:5173`
 
-## Building for Production
-
-Create a production build:
+## 📦 Comandos Disponibles
 
 ```bash
+# Desarrollo con HMR
+npm run dev
+
+# Construir para producción
 npm run build
+
+# Vista previa de la build
+npm run preview
+
+# Lint del código
+npm run lint
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+## 🐳 Despliegue con Docker
 
 ```bash
-docker build -t my-app .
+# Construir la imagen
+docker build -t ai-resume-analyzer .
 
-# Run the container
-docker run -p 3000:3000 my-app
+# Ejecutar el contenedor
+docker run -p 3000:3000 ai-resume-analyzer
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## 📁 Estructura del Proyecto
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
+ai-resume-analyzer/
+├── src/
+│   ├── components/        # Componentes React reutilizables
+│   ├── pages/            # Páginas de la aplicación
+│   ├── hooks/            # Custom hooks
+│   ├── utils/            # Funciones auxiliares
+│   ├── styles/           # Estilos globales
+│   └── App.tsx           # Componente raíz
 ├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+│   ├── client/           # Assets estáticos
+│   └── server/           # Código del servidor
+├── public/               # Recursos públicos
+├── package.json
+├── tsconfig.json
+├── tailwind.config.js
+└── vite.config.ts
 ```
 
-## Styling
+## 💡 Cómo Usar
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+1. **Autenticación** - Inicia sesión con tu cuenta de Puter.js
+2. **Carga tu CV** - Sube un archivo PDF, DOCX o pega el contenido directamente
+3. **Análisis Automático** - Puter.js analiza tu CV en segundos
+4. **Revisa tu Puntuación** - Observa tu calificación general y detallada
+5. **Lee Recomendaciones** - Obtén sugerencias específicas de mejora
+6. **Descarga tu Reporte** - Guarda el análisis completo para referencia
+
+## 📊 Ejemplo de Análisis
+
+El analizador evalúa:
+- Estructura y formato del documento
+- Claridad y concisión del contenido
+- Presencia de habilidades clave
+- Logros y métricas cuantificables
+- Palabras clave del sector
+- Puntuación de ATS (Applicant Tracking System)
+
+## 📝 Licencia
+
+Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 👨‍💻 Autor
+
+**Francis Castillo**
+- GitHub: [@ingfranciscastillo](https://github.com/ingfranciscastillo)
+
+## 🔗 Enlaces Útiles
+
+- [Documentación Puter.js](https://docs.puter.com/)
+- [Documentación React Router](https://reactrouter.com/)
+- [Documentación TailwindCSS](https://tailwindcss.com/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
 ---
 
-Built with ❤️ using React Router.
+**Construido con ❤️ usando React y IA**

@@ -115,10 +115,10 @@ const Upload = () => {
             ) : (
                 <>
                     <h1 className="text-balance text-4xl font-semibold md:text-5xl lg:text-6xl">
-                        Smart Feedback for your dream job
+                        Feedback inteligente para tu empleo soñado.
                     </h1>
                   <p className="text-muted-foreground mx-auto my-8 max-w-2xl text-xl">
-                    Drop your resume for an ATS Score and Improvement tips
+                      Sube tu currículum para obtener una puntuación ATS y consejos de mejora
                   </p>
                 </>
             )}
@@ -128,34 +128,34 @@ const Upload = () => {
                   <FieldGroup>
                     <Field>
                       <FieldLabel htmlFor="company-name">
-                        Company Name
+                        Nombre de la compañia
                       </FieldLabel>
                       <Input
                         type="text"
                         name={"company_name"}
-                        placeholder={"Company Name"}
+                        placeholder={"Nombre de la compañia"}
                         id={"company-name"}
                       />
                     </Field>
 
                     <Field>
-                      <FieldLabel htmlFor="job-title">Job Title</FieldLabel>
+                      <FieldLabel htmlFor="job-title">Título del trabajo</FieldLabel>
                       <Input
                         type="text"
                         name={"job-title"}
-                        placeholder={"Job Title"}
+                        placeholder={"Desarrollador Full stack, abogado..."}
                         id={"job-title"}
                       />
                     </Field>
 
                     <Field>
                       <FieldLabel htmlFor="job-description">
-                        Job description
+                        Descripción del trabajo
                       </FieldLabel>
                       <Textarea
                         rows={5}
                         name={"job-description"}
-                        placeholder={"Job Description"}
+                        placeholder={"Descripción del trabajo"}
                         id={"job-description"}
                       />
                     </Field>
@@ -167,7 +167,7 @@ const Upload = () => {
 
                     <Field orientation={"horizontal"}>
                       <Button type={"submit"} variant={"default"} className={"w-full"}>
-                        Analyze Resume
+                        Analizar curriculum
                       </Button>
                     </Field>
                   </FieldGroup>
