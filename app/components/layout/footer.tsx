@@ -86,7 +86,7 @@ export default function FooterSection() {
             <SiInstagram />
           </Link>
           <Link
-            to="buymeacoffee.com/ingfranciscastillo"
+            to="https://www.buymeacoffee.com/ingfranciscastillo"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Buy me a Coffee"
