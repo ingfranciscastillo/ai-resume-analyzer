@@ -14,8 +14,18 @@ Una aplicación moderna y potente que utiliza inteligencia artificial para anali
 
 ## 🛠️ Stack Tecnológico
 
-- **Frontend**: React + React Router
-- **Styling**: TailwindCSS
+<div align="center">
+
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+![React Router](https://img.shields.io/badge/React_Router-v7-CA4245?style=flat&logo=react-router&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+
+</div>
+
+- **Frontend**: React 19 + React Router v7
+- **Styling**: TailwindCSS + shadcn/ui
 - **Backend**: Node.js (integrado con React Router)
 - **IA**: Puter.js para análisis inteligente
 - **Autenticación**: Puter.js para gestión de usuarios
@@ -80,21 +90,21 @@ docker run -p 3000:3000 ai-resume-analyzer
 
 ```
 ai-resume-analyzer/
-├── src/
-│   ├── components/        # Componentes React reutilizables
-│   ├── pages/            # Páginas de la aplicación
-│   ├── hooks/            # Custom hooks
-│   ├── utils/            # Funciones auxiliares
-│   ├── styles/           # Estilos globales
-│   └── App.tsx           # Componente raíz
-├── build/
-│   ├── client/           # Assets estáticos
-│   └── server/           # Código del servidor
+├── app/
+│   ├── components/       # Componentes React reutilizables
+│   ├── routes/          # Rutas de la aplicación (React Router v7)
+│   ├── lib/             # Utilidades y configuraciones
+│   ├── root.tsx         # Componente raíz
+│   └── app.css          # Estilos globales
+├── build/                # Output de producción
 ├── public/               # Recursos públicos
+├── types/                # Definiciones de tipos TypeScript
+├── constants/            # Constantes de la aplicación
+├── components.json       # Configuración de shadcn/ui
 ├── package.json
 ├── tsconfig.json
-├── tailwind.config.js
-└── vite.config.ts
+├── vite.config.ts
+└── react-router.config.ts
 ```
 
 ## 💡 Cómo Usar
@@ -118,6 +128,24 @@ El analizador evalúa:
 ## 📝 Licencia
 
 Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## ❓ Troubleshooting
+
+### Error: "Port already in use"
+Si el puerto 5173 está en uso, puedes especificar otro puerto:
+```bash
+npm run dev -- --port 3000
+```
+
+### Error de compilación en Docker
+Asegúrate de tener la versión más reciente de Node.js (18+) y limpia el cache:
+```bash
+npm run build
+docker build -t ai-resume-analyzer .
+```
+
+### Problemas con Puter.js
+Verifica tu conexión a internet. Puter.js requiere acceso a sus servidores para autenticación y análisis de CVs.
 
 ## 👨‍💻 Autor
 
