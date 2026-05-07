@@ -1,4 +1,9 @@
-# 🤖 AI Resume Analyzer
+# AI Resume Analyzer
+
+[![live_preview](https://img.shields.io/badge/live_preview-000?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio95-silk.vercel.app/)
+[![behance](https://img.shields.io/badge/behance-1769FF?style=for-the-badge&logo=behance&logoColor=white)](https://www.behance.net/ingfranciscastillo)
+
+![AI Resume Analyzer](https://via.placeholder.com/800x400?text=AI+Resume+Analyzer+Screenshot)
 
 Una aplicación moderna y potente que utiliza inteligencia artificial para analizar, evaluar y mejorar currículos vitae. Obtén retroalimentación instantánea sobre tu CV con puntuaciones detalladas, áreas de mejora y recomendaciones personalizadas.
 
@@ -14,16 +19,6 @@ Una aplicación moderna y potente que utiliza inteligencia artificial para anali
 
 ## 🛠️ Stack Tecnológico
 
-<div align="center">
-
-![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-![React Router](https://img.shields.io/badge/React_Router-v7-CA4245?style=flat&logo=react-router&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
-
-</div>
-
 - **Frontend**: React 19 + React Router v7
 - **Styling**: TailwindCSS + shadcn/ui
 - **Backend**: Node.js (integrado con React Router)
@@ -36,6 +31,7 @@ Una aplicación moderna y potente que utiliza inteligencia artificial para anali
 ## 🚀 Inicio Rápido
 
 ### Requisitos Previos
+
 - Node.js 18+ instalado
 - npm o pnpm
 - Git
@@ -43,17 +39,20 @@ Una aplicación moderna y potente que utiliza inteligencia artificial para anali
 ### Instalación
 
 1. Clona el repositorio:
+
 ```bash
 git clone https://github.com/ingfranciscastillo/ai-resume-analyzer.git
 cd ai-resume-analyzer
 ```
 
 2. Instala las dependencias:
+
 ```bash
 npm install
 ```
 
 3. Inicia el servidor de desarrollo:
+
 ```bash
 npm run dev
 ```
@@ -118,6 +117,7 @@ ai-resume-analyzer/
 ## 📊 Ejemplo de Análisis
 
 El analizador evalúa:
+
 - Estructura y formato del documento
 - Claridad y concisión del contenido
 - Presencia de habilidades clave
@@ -132,24 +132,30 @@ Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más det
 ## ❓ Troubleshooting
 
 ### Error: "Port already in use"
+
 Si el puerto 5173 está en uso, puedes especificar otro puerto:
+
 ```bash
 npm run dev -- --port 3000
 ```
 
 ### Error de compilación en Docker
+
 Asegúrate de tener la versión más reciente de Node.js (18+) y limpia el cache:
+
 ```bash
 npm run build
 docker build -t ai-resume-analyzer .
 ```
 
 ### Problemas con Puter.js
+
 Verifica tu conexión a internet. Puter.js requiere acceso a sus servidores para autenticación y análisis de CVs.
 
 ## 👨‍💻 Autor
 
 **Francis Castillo**
+
 - GitHub: [@ingfranciscastillo](https://github.com/ingfranciscastillo)
 
 ## 🔗 Enlaces Útiles
@@ -158,7 +164,3 @@ Verifica tu conexión a internet. Puter.js requiere acceso a sus servidores para
 - [Documentación React Router](https://reactrouter.com/)
 - [Documentación TailwindCSS](https://tailwindcss.com/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-
----
-
-**Construido con ❤️ usando React y IA**
