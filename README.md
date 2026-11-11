@@ -1,178 +1,117 @@
-# AI Resume Analyzer
+<div align="center">
 
-[![live_preview](https://img.shields.io/badge/live_preview-000?style=for-the-badge&logo=vercel&logoColor=white)](https://resumesense.vercel.app/)
-[![behance](https://img.shields.io/badge/behance-1769FF?style=for-the-badge&logo=behance&logoColor=white)](https://www.behance.net/ingfranciscastillo)
-[![github_stars](https://img.shields.io/github/stars/ingfranciscastillo/ai-resume-analyzer?style=for-the-badge)](https://github.com/ingfranciscastillo/ai-resume-analyzer/stargazers)
-[![license](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
-[![linkedin](https://img.shields.io/badge/linkedin-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ingfranciscastillo)
-[![last_commit](https://img.shields.io/github/last-commit/ingfranciscastillo/ai-resume-analyzer?style=for-the-badge)](https://github.com/ingfranciscastillo/ai-resume-analyzer/commits/main)
+<img src="public/favicon.svg" alt="ResumeSense logo" width="64" height="64">
 
-![AI Resume Analyzer](/screenshot.png)
+# ResumeSense
 
-Una aplicación moderna y potente que utiliza inteligencia artificial para analizar, evaluar y mejorar currículos vitae. Obtén retroalimentación instantánea sobre tu CV con puntuaciones detalladas, áreas de mejora y recomendaciones personalizadas.
+**AI resume analysis that reads your CV the way a recruiter does.**
 
-## ✨ Características
+[![React Router](https://img.shields.io/badge/React_Router-8-CA4245?style=flat-square&logo=reactrouter&logoColor=white)](https://reactrouter.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A522.22-5FA04E?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![Last commit](https://img.shields.io/github/last-commit/ingfranciscastillo/ai-resume-analyzer?style=flat-square)](https://github.com/ingfranciscastillo/ai-resume-analyzer/commits/main)
 
-- **Puntuación ATS** - Comprueba si tu CV supera los filtros automáticos de las empresas
-- **Ajuste a la oferta** - Compara tu CV con la descripción del puesto y detecta palabras clave que faltan
-- **Cuatro categorías** - Tono y estilo, contenido, estructura y habilidades, cada una con su nota y consejos
-- **Consejos accionables** - Cada recomendación explica qué cambiar y por qué
-- **Historial** - Panel con todos tus análisis y su puntuación
-- **Español e inglés** - Detecta el idioma del navegador; la IA responde en el idioma elegido
-- **Modo claro y oscuro** - Sigue al sistema, con selector manual
-- **Privado** - Tus archivos y resultados viven en tu cuenta de Puter; puedes borrarlos desde `/wipe`
+**English** · [Español](README.es.md)
 
-## 🛠️ Stack Tecnológico
+[Features](#features) · [Getting started](#getting-started) · [How it works](#how-it-works) · [Configuration](#configuration) · [Deployment](#deployment)
 
-- **Frontend**: React 19 + React Router v8 (SSR)
-- **Estilos**: Tailwind CSS v4 + componentes shadcn/ui
-- **Tipografía**: Instrument Serif + Geist / Geist Mono
-- **Iconos**: Phosphor Icons
-- **i18n**: diccionarios propios (`app/lib/i18n`), idioma por cookie o `Accept-Language`
-- **IA, almacenamiento y autenticación**: Puter.js (modelo configurable en `AI_MODEL`, `app/lib/puter.ts`)
-- **PDF**: pdf.js para generar la vista previa
-- **Bundling**: Vite 8
-- **Tipado**: TypeScript
-- **Contenerización**: Docker (Node 22)
+<img src="docs/screenshot.jpg" alt="ResumeSense landing page" width="800">
 
-## 🚀 Inicio Rápido
+</div>
 
-### Requisitos Previos
+Upload your resume as a PDF, add the job you're applying for, and ResumeSense returns an ATS score, a grade for each category and concrete, explained changes to make. Everything runs on [Puter.js](https://docs.puter.com), so there's no backend to host and your files stay in your own Puter account.
 
-- Node.js 22.22+ instalado (hay un `.nvmrc`: ejecuta `nvm use`)
-- npm o pnpm
-- Git
+## Features
 
-### Instalación
+- **ATS score**: checks whether your resume gets past the automated filters companies use.
+- **Job match**: compares your resume with the job description and flags missing keywords.
+- **Four categories**: tone and style, content, structure and skills, each with its own score and tips.
+- **Actionable advice**: every tip explains what to change and why it matters.
+- **Dashboard**: every analysis is saved with its score so you can compare versions.
+- **English and Spanish**: picks the browser language and remembers your choice; the AI answers in the selected language.
+- **Light and dark mode**: follows the system, with a manual switch.
+- **Private**: resumes and results live in the user's Puter account and can be deleted from `/wipe`.
 
-1. Clona el repositorio:
+## Getting started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) 22.22 or later (an `.nvmrc` is included)
+- A free [Puter](https://puter.com) account to sign in to the app
+
+### Run locally
 
 ```bash
 git clone https://github.com/ingfranciscastillo/ai-resume-analyzer.git
 cd ai-resume-analyzer
-```
-
-2. Instala las dependencias:
-
-```bash
+nvm use
 npm install
-```
-
-3. Inicia el servidor de desarrollo:
-
-```bash
 npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:5173`
+Open http://localhost:5173 and sign in with Puter to analyze a resume.
 
-## 📦 Comandos Disponibles
+> [!NOTE]
+> There are no API keys to set up. AI, file storage, the key-value store and authentication are provided by Puter.js in the browser, under the signed-in user's account.
 
-```bash
-# Desarrollo con HMR
-npm run dev
+### Scripts
 
-# Generar tipos de rutas y comprobar TypeScript
-npm run typecheck
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server with HMR |
+| `npm run typecheck` | Generate route types and run TypeScript |
+| `npm run build` | Build for production |
+| `npm run start` | Serve the production build |
 
-# Construir para producción
-npm run build
+## How it works
 
-# Servir la build de producción
-npm run start
-```
+1. The PDF is uploaded to the user's Puter storage.
+2. [pdf.js](https://mozilla.github.io/pdf.js/) renders the first page to an image for the preview.
+3. The resume and the job details are sent to Claude through `puter.ai.chat`, with a prompt that asks for a JSON report in the user's language.
+4. The report is stored in Puter's key-value store and shown on `/resume/:id`.
 
-## 🐳 Despliegue con Docker
+### Routes
 
-```bash
-# Construir la imagen
-docker build -t ai-resume-analyzer .
+| Route | Description |
+| --- | --- |
+| `/` | Public landing page |
+| `/auth` | Sign in with Puter |
+| `/dashboard` | List of your analyses |
+| `/upload` | New analysis |
+| `/resume/:id` | Analysis report |
+| `/about` | About the project |
+| `/wipe` | Delete all your stored data |
 
-# Ejecutar el contenedor
-docker run -p 3000:3000 ai-resume-analyzer
-```
+### Tech stack
 
-## 📁 Estructura del Proyecto
+- [React Router 8](https://reactrouter.com) in framework mode with SSR, on React 19 and Vite 8
+- [Tailwind CSS 4](https://tailwindcss.com) with [shadcn/ui](https://ui.shadcn.com) components
+- [Phosphor Icons](https://phosphoricons.com), Instrument Serif and Geist fonts
+- [Puter.js](https://docs.puter.com) for AI, storage and authentication
+- A small typed dictionary for i18n in `app/lib/i18n`, with the language resolved on the server from a cookie or `Accept-Language`
 
-```
-ai-resume-analyzer/
-├── app/
-│   ├── components/       # Componentes React (layout, landing, feedback, ui)
-│   ├── routes/          # Rutas: landing, dashboard, auth, upload, resume, about, wipe
-│   ├── lib/             # Puter.js, i18n, PDF y utilidades
-│   ├── root.tsx         # Componente raíz
-│   └── app.css          # Estilos globales
-├── build/                # Output de producción
-├── public/               # Recursos públicos
-├── types/                # Definiciones de tipos TypeScript
-├── constants/            # Constantes de la aplicación
-├── components.json       # Configuración de shadcn/ui
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── react-router.config.ts
-```
+## Configuration
 
-## 💡 Cómo Usar
+The AI model is set in `AI_MODEL` in [`app/lib/puter.ts`](app/lib/puter.ts).
 
-1. **Autenticación** - Inicia sesión con tu cuenta de Puter.
-2. **Carga tu CV** - Indica la empresa, el puesto y la oferta, y sube tu CV en PDF.
-3. **Análisis Automático** - Puter.js analiza tu CV en segundos
-4. **Revisa tu Puntuación** - Observa tu calificación general y detallada
-5. **Lee Recomendaciones** - Obtén sugerencias específicas de mejora
-6. **Panel** - Consulta todos tus análisis en `/dashboard`
+> [!WARNING]
+> Puter retires old models. If an analysis fails with `Model not found`, sign in, run `await puter.ai.listModels()` in the browser console and set `AI_MODEL` to one of the listed ids.
 
-## 📊 Ejemplo de Análisis
+Translations live in [`app/lib/i18n/dictionaries.ts`](app/lib/i18n/dictionaries.ts). Both languages share one type, so a missing key is a type error.
 
-El analizador evalúa:
+## Deployment
 
-- Estructura y formato del documento
-- Claridad y concisión del contenido
-- Presencia de habilidades clave
-- Logros y métricas cuantificables
-- Palabras clave del sector
-- Puntuación de ATS (Applicant Tracking System)
-
-## 📝 Licencia
-
-Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## ❓ Troubleshooting
-
-### Error: "Port already in use"
-
-Si el puerto 5173 está en uso, puedes especificar otro puerto:
+The app builds to a standard Node server, so it runs on any Node 22 host.
 
 ```bash
-npm run dev -- --port 3000
+docker build -t resumesense .
+docker run -p 3000:3000 resumesense
 ```
 
-### Error de compilación en Docker
+> [!TIP]
+> On Vercel or similar platforms, set the Node.js version to 22 or later in the project settings; React Router 8 won't build on older versions.
 
-Asegúrate de tener la versión más reciente de Node.js (18+) y limpia el cache:
+## Author
 
-```bash
-npm run build
-docker build -t ai-resume-analyzer .
-```
-
-### Problemas con Puter.js
-
-Verifica tu conexión a internet. Puter.js requiere acceso a sus servidores para autenticación y análisis de CVs.
-
-### El análisis falla con "Model not found"
-
-Puter retira modelos antiguos. Abre la consola del navegador con sesión iniciada, ejecuta `await puter.ai.listModels()` y cambia `AI_MODEL` en `app/lib/puter.ts` por uno de la lista.
-
-## 👨‍💻 Autor
-
-**Francis Castillo**
-
-- GitHub: [@ingfranciscastillo](https://github.com/ingfranciscastillo)
-
-## 🔗 Enlaces Útiles
-
-- [Documentación Puter.js](https://docs.puter.com/)
-- [Documentación React Router](https://reactrouter.com/)
-- [Documentación TailwindCSS](https://tailwindcss.com/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+Made by [Francis Castillo](https://github.com/ingfranciscastillo).
