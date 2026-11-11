@@ -1,47 +1,67 @@
-import React, {useEffect, useState} from 'react'
-import {Link} from "react-router";
-import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import ScoreCircle from "@/components/ScoreCircle";
-import {usePuterStore} from "@/lib/puter";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import { ArrowRightIcon, FileTextIcon } from "@phosphor-icons/react";
+import { ScoreLabel, ScoreRing } from "@/components/score";
+import { usePuterStore } from "@/lib/puter";
+import { useI18n } from "@/lib/i18n";
 
-const ResumeCard = ({resume}: {resume: Resume}) => {
+export default function ResumeCard({ resume }: { resume: Resume }) {
+  const { fs } = usePuterStore();
+  const { t } = useI18n();
+  const [imageUrl, setImageUrl] = useState("");
 
-    const {fs} = usePuterStore()
-    const [resumeUrl, setResumeUrl] = useState('');
+  useEffect(() => {
+    let url = "";
+    let cancelled = false;
+    (async () => {
+      const blob = await fs.read(resume.imagePath);
+      if (!blob || cancelled) return;
+      url = URL.createObjectURL(blob);
+      setImageUrl(url);
+    })();
+    return () => {
+      cancelled = true;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [resume.imagePath, fs]);
 
-    useEffect(() => {
-        const loadResume = async () => {
-            const blob = await fs.read(resume.imagePath)
-            if(!blob) return
+  const score = resume.feedback?.overallScore ?? 0;
+  const title = resume.companyName || resume.jobTitle || t.dashboard.untitled;
+  const subtitle = resume.companyName ? resume.jobTitle : undefined;
 
-            let url = URL.createObjectURL(blob);
-
-            setResumeUrl(url)
-        }
-
-        loadResume()
-    }, [resume.imagePath]);
-
-    return (
-        <Link to={`/resume/${resume?.id}`} className={"block h-full animate-in fade-in duration-1000"}>
-            <Card className={"h-full cursor-pointer"}>
-                <CardHeader>
-                    {resume.companyName && <CardTitle className={"text-primary"}> {resume.companyName} </CardTitle>}
-                    {resume.jobTitle && <CardDescription className={"text-foreground"}>{resume.jobTitle}</CardDescription>}
-                    {!resume.companyName && !resume.jobTitle && <CardTitle className={"text-primary"}>Resume</CardTitle> }
-                    <CardAction>
-                        <ScoreCircle score={resume.feedback.overallScore}/>
-                    </CardAction>
-                </CardHeader>
-                {
-                    resume.imagePath && (
-                        <CardContent className={"animate-in fade-in duration-1000"}>
-                            <img className="w-full h-[350px] max-sm:h-[200px] object-cover object-top" src={resumeUrl} alt={"Resume"} />
-                        </CardContent>
-                    )
-                }
-            </Card>
-        </Link>
-    )
+  return (
+    <Link
+      to={`/resume/${resume.id}`}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)]"
+    >
+      <div className="relative aspect-[4/3] overflow-hidden border-b bg-muted">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt=""
+            loading="lazy"
+            className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02] animate-in fade-in"
+          />
+        ) : (
+          <div className="grid size-full place-items-center">
+            <FileTextIcon className="size-10 text-muted-foreground/40" weight="thin" />
+          </div>
+        )}
+      </div>
+      <div className="flex flex-1 items-center gap-4 p-5">
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate font-medium">{title}</h3>
+          {subtitle && <p className="truncate text-sm text-muted-foreground">{subtitle}</p>}
+          <div className="mt-3 flex items-center gap-2">
+            <ScoreLabel score={score} />
+            <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
+              {t.dashboard.viewReport}
+              <ArrowRightIcon className="size-3" />
+            </span>
+          </div>
+        </div>
+        <ScoreRing score={score} size={60} stroke={5} label={t.dashboard.overall} />
+      </div>
+    </Link>
+  );
 }
-export default ResumeCard
