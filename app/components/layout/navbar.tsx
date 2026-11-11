@@ -1,105 +1,188 @@
-'use client'
-import React, {useState} from 'react'
-import {Link} from "react-router";
-import {Button} from "@/components/ui/button";
-import {ModeToggle} from "@/components/mode-toggle";
-import {usePuterStore} from "@/lib/puter";
-import {Menu, X} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router";
+import { ListIcon, SignOutIcon, SquaresFourIcon, XIcon, ArrowRightIcon } from "@phosphor-icons/react";
+import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Logo } from "@/components/brand/Logo";
+import { LanguageSwitch, ThemeToggle } from "@/components/layout/controls";
+import { usePuterStore } from "@/lib/puter";
+import { useI18n } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
-const menuItems = [
-    { name: 'Caracteristicas', href: '#features' },
-    { name: 'Sobre nosotros', href: '/about' },
-]
+export default function Navbar() {
+  const { auth, puterReady, isLoading } = usePuterStore();
+  // Avoid flashing "Sign in" while Puter is still checking the session.
+  const authKnown = puterReady && !isLoading;
+  const { t } = useI18n();
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-const Navbar = () => {
+  useEffect(() => setOpen(false), [location.pathname, location.hash]);
 
-    const {auth} = usePuterStore();
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    const [menuState, setMenuState] = useState(false)
+  const links = [
+    { to: "/#how-it-works", label: t.nav.howItWorks },
+    { to: "/#features", label: t.nav.features },
+    { to: "/about", label: t.nav.about },
+  ];
 
-    return (
-        <header className={"relative z-50"}>
-            <nav
-                data-state={menuState && 'active'}
-                className="fixed w-full border-b border-dashed bg-white backdrop-blur md:relative dark:bg-zinc-950/50 lg:dark:bg-transparent">
-                <div className="m-auto max-w-5xl px-6">
-                    <div className="flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-                        <div className="flex w-full justify-between lg:w-auto z-50">
-                            <Link
-                                to="/"
-                                aria-label="home"
-                                className="flex items-center space-x-2 uppercase font-black tracking-wider">
-                                ResumeSense
-                            </Link>
+  const username = auth.user?.username ?? "";
 
-                            <button
-                                onClick={() => setMenuState(!menuState)}
-                                aria-label={menuState ? 'Close Menu' : 'Open Menu'}
-                                className="relative -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
-                                <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
-                                <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
-                            </button>
-                        </div>
+  return (
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full border-b transition-colors duration-200",
+        scrolled || open
+          ? "border-border bg-background/85 backdrop-blur-md"
+          : "border-transparent bg-transparent"
+      )}
+    >
+      <nav className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
+        <Logo />
 
-                        <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
-                            <div className="lg:pr-4">
-                                <ul className="space-y-6 text-base lg:flex lg:gap-8 lg:space-y-0 lg:text-sm">
-                                    {menuItems.map((item, index) => (
-                                        <li key={index}>
-                                            <Link
-                                                to={item.href}
-                                                className="text-muted-foreground hover:text-accent-foreground block duration-150">
-                                                <span>{item.name}</span>
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+        <ul className="ml-4 hidden items-center gap-1 lg:flex">
+          {links.map((link) => (
+            <li key={link.to}>
+              <Link
+                to={link.to}
+                className="rounded-md px-3 py-2 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-                            <ModeToggle/>
+        <div className="ml-auto flex items-center gap-1">
+          <div className="hidden items-center gap-1 sm:flex">
+            <LanguageSwitch />
+            <ThemeToggle />
+          </div>
 
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
+          <div className="ml-2 hidden items-center gap-2 lg:flex">
+            {!authKnown ? (
+              <div aria-hidden className="h-8 w-44 animate-pulse rounded-md bg-muted" />
+            ) : auth.isAuthenticated ? (
+              <>
+                <Button asChild variant="ghost" size="sm">
+                  <NavLink to="/dashboard">
+                    <SquaresFourIcon />
+                    {t.nav.dashboard}
+                  </NavLink>
+                </Button>
+                <Button asChild size="sm">
+                  <Link to="/upload">{t.nav.analyze}</Link>
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      aria-label={t.nav.account}
+                      className="ml-1 grid size-8 cursor-pointer place-items-center rounded-full bg-foreground font-mono text-xs font-medium uppercase text-background outline-offset-2"
+                    >
+                      {username.slice(0, 1) || "·"}
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="min-w-52">
+                    <DropdownMenuLabel className="font-normal">
+                      <span className="block text-xs text-muted-foreground">{t.nav.signedInAs}</span>
+                      <span className="block truncate font-medium">{username}</span>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild className="gap-2">
+                      <Link to="/dashboard">
+                        <SquaresFourIcon className="size-4" />
+                        {t.nav.dashboard}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={auth.signOut} className="gap-2">
+                      <SignOutIcon className="size-4" />
+                      {t.nav.signOut}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/auth?next=/dashboard">{t.nav.signIn}</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link to="/upload">
+                    {t.nav.analyze}
+                    <ArrowRightIcon />
+                  </Link>
+                </Button>
+              </>
+            )}
+          </div>
 
-                                <Button
-                                    asChild
-                                    size="sm">
-                                    <Link to="/upload">
-                                        <span>Subir curriculum</span>
-                                    </Link>
-                                </Button>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button
-                                                    variant={"outline"}
-                                                    asChild
-                                                    size="sm">
-                                                    <Link to="/auth">
-                                                        <span className={"uppercase"}>{auth.user?.username[0]} </span>
-                                                    </Link>
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
-                                                <DropdownMenuGroup>
-                                                    <DropdownMenuItem onClick={auth.signOut}>
-                                                        Salir
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuGroup>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <XIcon className="size-5" /> : <ListIcon className="size-5" />}
+          </Button>
+        </div>
+      </nav>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    )
+      {open && (
+        <div id="mobile-menu" className="border-t lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-4 sm:px-6">
+            {auth.isAuthenticated && (
+              <Link to="/dashboard" className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">
+                {t.nav.dashboard}
+              </Link>
+            )}
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="rounded-md px-3 py-3 text-base text-muted-foreground hover:bg-accent hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="mt-2 flex items-center gap-1 border-t pt-3 sm:hidden">
+              <LanguageSwitch />
+              <ThemeToggle />
+            </div>
+            <div className="mt-3 grid gap-2">
+              <Button asChild size="lg">
+                <Link to="/upload">{t.nav.analyze}</Link>
+              </Button>
+              {auth.isAuthenticated ? (
+                <Button variant="outline" size="lg" onClick={auth.signOut}>
+                  <SignOutIcon />
+                  {t.nav.signOut}
+                </Button>
+              ) : (
+                <Button asChild variant="outline" size="lg">
+                  <Link to="/auth?next=/dashboard">{t.nav.signIn}</Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
 }
-export default Navbar
