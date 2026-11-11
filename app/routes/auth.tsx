@@ -36,7 +36,7 @@ export default function LoginPage() {
       {/* Brand panel */}
       <aside className="relative hidden overflow-hidden bg-foreground text-background lg:flex lg:flex-col lg:justify-between lg:p-12">
         <div className="absolute -bottom-32 -left-32 size-96 rounded-full bg-brand/30 blur-3xl" />
-        <Logo className="relative [&_rect]:fill-background [&_path]:stroke-foreground" />
+        <Logo className="relative" />
         <figure className="relative max-w-md">
           <QuotesIcon className="size-10 text-brand" weight="fill" aria-hidden />
           <blockquote className="font-display mt-6 text-5xl leading-[1.05]">{a.quote}</blockquote>
