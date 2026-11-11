@@ -13,24 +13,27 @@ Una aplicación moderna y potente que utiliza inteligencia artificial para anali
 
 ## ✨ Características
 
-- **Análisis Inteligente de CVs** - Análisis impulsado por IA que evalúa estructura, contenido y claridad
-- **Puntuación Detallada** - Recibe calificaciones en múltiples categorías (experiencia, habilidades, formato, etc.)
-- **Recomendaciones Personalizadas** - Sugerencias concretas para mejorar tu CV
-- **Comparativa con Ofertas** - Analiza qué tan bien se ajusta tu CV a descripciones de empleo
-- **Interfaz Intuitiva** - Diseño limpio y fácil de usar con TailwindCSS
-- **Respuesta en Tiempo Real** - Feedback instantáneo mientras escribes o cargas documentos
-- **Exportar Resultados** - Descarga un reporte completo de tu análisis
+- **Puntuación ATS** - Comprueba si tu CV supera los filtros automáticos de las empresas
+- **Ajuste a la oferta** - Compara tu CV con la descripción del puesto y detecta palabras clave que faltan
+- **Cuatro categorías** - Tono y estilo, contenido, estructura y habilidades, cada una con su nota y consejos
+- **Consejos accionables** - Cada recomendación explica qué cambiar y por qué
+- **Historial** - Panel con todos tus análisis y su puntuación
+- **Español e inglés** - Detecta el idioma del navegador; la IA responde en el idioma elegido
+- **Modo claro y oscuro** - Sigue al sistema, con selector manual
+- **Privado** - Tus archivos y resultados viven en tu cuenta de Puter; puedes borrarlos desde `/wipe`
 
 ## 🛠️ Stack Tecnológico
 
-- **Frontend**: React 19 + React Router v7
-- **Styling**: TailwindCSS + shadcn/ui
-- **Backend**: Node.js (integrado con React Router)
-- **IA**: Puter.js para análisis inteligente
-- **Autenticación**: Puter.js para gestión de usuarios
-- **Bundling**: Vite con HMR
+- **Frontend**: React 19 + React Router v8 (SSR)
+- **Estilos**: Tailwind CSS v4 + componentes shadcn/ui
+- **Tipografía**: Instrument Serif + Geist / Geist Mono
+- **Iconos**: Phosphor Icons
+- **i18n**: diccionarios propios (`app/lib/i18n`), idioma por cookie o `Accept-Language`
+- **IA, almacenamiento y autenticación**: Puter.js (modelo configurable en `AI_MODEL`, `app/lib/puter.ts`)
+- **PDF**: pdf.js para generar la vista previa
+- **Bundling**: Vite 8
 - **Tipado**: TypeScript
-- **Contenerización**: Docker (listo para producción)
+- **Contenerización**: Docker (Node 22)
 
 ## 🚀 Inicio Rápido
 
@@ -69,14 +72,14 @@ La aplicación estará disponible en `http://localhost:5173`
 # Desarrollo con HMR
 npm run dev
 
+# Generar tipos de rutas y comprobar TypeScript
+npm run typecheck
+
 # Construir para producción
 npm run build
 
-# Vista previa de la build
-npm run preview
-
-# Lint del código
-npm run lint
+# Servir la build de producción
+npm run start
 ```
 
 ## 🐳 Despliegue con Docker
@@ -94,9 +97,9 @@ docker run -p 3000:3000 ai-resume-analyzer
 ```
 ai-resume-analyzer/
 ├── app/
-│   ├── components/       # Componentes React reutilizables
-│   ├── routes/          # Rutas de la aplicación (React Router v7)
-│   ├── lib/             # Utilidades y configuraciones
+│   ├── components/       # Componentes React (layout, landing, feedback, ui)
+│   ├── routes/          # Rutas: landing, dashboard, auth, upload, resume, about, wipe
+│   ├── lib/             # Puter.js, i18n, PDF y utilidades
 │   ├── root.tsx         # Componente raíz
 │   └── app.css          # Estilos globales
 ├── build/                # Output de producción
@@ -113,10 +116,11 @@ ai-resume-analyzer/
 ## 💡 Cómo Usar
 
 1. **Autenticación** - Inicia sesión con tu cuenta de Puter.
-2. **Carga tu CV** - Sube un archivo PDF.
+2. **Carga tu CV** - Indica la empresa, el puesto y la oferta, y sube tu CV en PDF.
 3. **Análisis Automático** - Puter.js analiza tu CV en segundos
 4. **Revisa tu Puntuación** - Observa tu calificación general y detallada
 5. **Lee Recomendaciones** - Obtén sugerencias específicas de mejora
+6. **Panel** - Consulta todos tus análisis en `/dashboard`
 
 ## 📊 Ejemplo de Análisis
 
@@ -155,6 +159,10 @@ docker build -t ai-resume-analyzer .
 ### Problemas con Puter.js
 
 Verifica tu conexión a internet. Puter.js requiere acceso a sus servidores para autenticación y análisis de CVs.
+
+### El análisis falla con "Model not found"
+
+Puter retira modelos antiguos. Abre la consola del navegador con sesión iniciada, ejecuta `await puter.ai.listModels()` y cambia `AI_MODEL` en `app/lib/puter.ts` por uno de la lista.
 
 ## 👨‍💻 Autor
 
