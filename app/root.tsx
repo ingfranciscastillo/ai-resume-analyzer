@@ -12,6 +12,10 @@ import { useEffect } from "react";
 import { IconContext } from "@phosphor-icons/react";
 
 import type { Route } from "./+types/root";
+import "@fontsource-variable/geist/index.css";
+import "@fontsource-variable/geist-mono/index.css";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/instrument-serif/400-italic.css";
 import "./app.css";
 import { usePuterStore } from "@/lib/puter";
 import { ThemeProvider, themeInitScript } from "@/components/theme-provider";
@@ -21,21 +25,33 @@ import { Button } from "@/components/ui/button";
 export function loader({ request }: Route.LoaderArgs) {
   const lang =
     readLangCookie(request.headers.get("Cookie")) ?? negotiateLang(request.headers.get("Accept-Language"));
-  return { lang };
+  // Used by routes to build absolute canonical / Open Graph URLs.
+  const origin = new URL(request.url).origin;
+  return { lang, origin };
+}
+
+/**
+ * Baseline security headers for every document response. A Content-Security-Policy
+ * is left to the host: Puter.js loads remote code and opens auth popups, so a strict
+ * policy needs testing in report-only mode first.
+ */
+export function headers(_: Route.HeadersArgs) {
+  return {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+    "X-Frame-Options": "SAMEORIGIN",
+  };
 }
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap",
-  },
+  { rel: "preconnect", href: "https://js.puter.com" },
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const data = useRouteLoaderData<typeof loader>("root");
+  // Missing on unmatched URLs (404); I18nProvider then detects the language on the client.
   const lang: Lang = data?.lang ?? "es";
 
   return (
@@ -52,9 +68,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider>
-          <I18nProvider initialLang={lang}>
+          <I18nProvider initialLang={data?.lang}>
             <IconContext.Provider value={{ weight: "regular", size: 18 }}>
               <HtmlLang />
+              <SkipLink />
               {children}
             </IconContext.Provider>
           </I18nProvider>
@@ -63,6 +80,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  );
+}
+
+/** Lets keyboard users jump past the header (WCAG 2.4.1). Pages mark their <main id="main-content">. */
+function SkipLink() {
+  const { lang } = useI18n();
+  return (
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-md focus:bg-foreground focus:px-4 focus:py-2 focus:text-sm focus:text-background"
+    >
+      {dictionaries[lang].nav.skipToContent}
+    </a>
   );
 }
 
@@ -86,15 +116,16 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  const data = useRouteLoaderData<typeof loader>("root");
-  const t = dictionaries[data?.lang ?? "es"].errors;
+  const t = useI18n().t.errors;
 
   const notFound = isRouteErrorResponse(error) && error.status === 404;
   const status = isRouteErrorResponse(error) ? error.status : 500;
   const stack = import.meta.env.DEV && error instanceof Error ? error.stack : undefined;
 
   return (
-    <main className="bg-grid flex min-h-svh flex-col items-center justify-center px-6 py-24 text-center">
+    <main id="main-content" className="bg-grid flex min-h-svh flex-col items-center justify-center px-6 py-24 text-center">
+      <title>{`${notFound ? t.notFoundTitle : t.genericTitle} | ResumeSense`}</title>
+      <meta name="robots" content="noindex" />
       <p className="font-mono text-sm text-brand-text tabular">{status}</p>
       <h1 className="font-display mt-4 text-5xl md:text-6xl">
         {notFound ? t.notFoundTitle : t.genericTitle}

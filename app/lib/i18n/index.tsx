@@ -1,6 +1,14 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useRevalidator } from "react-router";
-import { DEFAULT_LANG, LANG_COOKIE, dictionaries, type Dictionary, type Lang } from "./dictionaries";
+import {
+  DEFAULT_LANG,
+  LANG_COOKIE,
+  dictionaries,
+  negotiateLang,
+  readLangCookie,
+  type Dictionary,
+  type Lang,
+} from "./dictionaries";
 
 export * from "./dictionaries";
 
@@ -12,9 +20,15 @@ type I18nState = {
 
 const I18nContext = createContext<I18nState | null>(null);
 
-export function I18nProvider({ initialLang, children }: { initialLang: Lang; children: ReactNode }) {
+export function I18nProvider({ initialLang, children }: { initialLang?: Lang; children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(initialLang ?? DEFAULT_LANG);
   const revalidator = useRevalidator();
+
+  // Unmatched URLs (404) render without root loader data, so detect on the client.
+  useEffect(() => {
+    if (initialLang) return;
+    setLangState(readLangCookie(document.cookie) ?? negotiateLang(navigator.languages));
+  }, [initialLang]);
 
   const setLang = useCallback(
     (next: Lang) => {

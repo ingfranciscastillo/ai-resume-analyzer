@@ -27,6 +27,7 @@ const es = {
     home: "Inicio",
     account: "Cuenta",
     signedInAs: "Sesión iniciada como",
+    skipToContent: "Saltar al contenido",
   },
   theme: {
     label: "Cambiar tema",
@@ -279,6 +280,7 @@ const en: Dictionary = {
     home: "Home",
     account: "Account",
     signedInAs: "Signed in as",
+    skipToContent: "Skip to content",
   },
   theme: {
     label: "Change theme",
