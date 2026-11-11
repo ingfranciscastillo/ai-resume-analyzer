@@ -1,69 +1,37 @@
-import ScoreGauge from "../ScoreGauge";
+import { ScoreBar, ScoreLabel, ScoreRing, ScoreValue } from "@/components/score";
+import { useI18n } from "@/lib/i18n";
 
-const ScoreBadge = ({ score }: { score: number }) => {
-    const badgeColor =
-        score > 69
-            ? "bg-[#d5faf1]"
-            : score > 49
-                ? "bg-[#fceed8]"
-                : "bg-[#f9e3e2]";
-    const textColor =
-        score > 69
-            ? "text-[#254d4a]"
-            : score > 49
-                ? "text-[#73321b]"
-                : "text-[#752522]";
-    const badgeText =
-        score > 69 ? "Strong" : score > 49 ? "Good Start" : "Needs Work";
+export const CATEGORY_KEYS = ["toneAndStyle", "content", "structure", "skills"] as const;
+export type CategoryKey = (typeof CATEGORY_KEYS)[number];
 
-    return (
-        <div className={`flex flex-row items-center justify-center py-1 px-2 gap-4 rounded-[96px] ${badgeColor}`}>
-            <p className={`text-xs ${textColor} font-semibold`}>{badgeText}</p>
+export default function Summary({ feedback }: { feedback: Feedback }) {
+  const { t } = useI18n();
+  const r = t.resume;
+
+  return (
+    <section className="rounded-2xl border bg-card">
+      <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
+        <ScoreRing score={feedback.overallScore} size={112} stroke={8} label={r.summaryTitle} />
+        <div>
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="font-display text-3xl">{r.summaryTitle}</h2>
+            <ScoreLabel score={feedback.overallScore} />
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">{r.summaryBody}</p>
         </div>
-    );
-};
-
-const Category = ({ title, score }: { title: string; score: number }) => {
-    const textColor =
-        score > 69
-            ? "text-green-600"
-            : score > 49
-                ? "text-yellow-600"
-                : "text-red-600";
-
-    return (
-        <div className="flex flex-row items-center justify-center p-4 gap-4">
-            <div className="flex flex-row gap-2 items-center rounded-2xl p-4 w-full justify-between">
-                <div className="flex flex-row gap-2 items-center justify-center">
-                    <p className="text-2xl">{title}</p>
-                    <ScoreBadge score={score} />
-                </div>
-                <p className="text-2xl ">
-                    <span className={textColor}>{score}</span>/100
-                </p>
-            </div>
-        </div>
-    );
-};
-
-const Summary = ({ feedback }: { feedback: Feedback }) => {
-    return (
-        <div className="bg-primary-foreground rounded-2xl shadow-md w-full">
-            <div className="flex flex-row max-sm:flex-col items-center p-4 gap-8">
-                <ScoreGauge score={feedback.overallScore} />
-                <div className="flex flex-col gap-2">
-                    <h2 className="text-2xl font-bold">Tu puntuación del currículum</h2>
-                    <p className="text-sm text-muted-foreground">
-                        Esta puntuación se calcula en base a las variables listadas a continuación.
-                    </p>
-                </div>
-            </div>
-            <Category title="Tono y estilo" score={feedback.toneAndStyle.score} />
-            <Category title="Contenido" score={feedback.content.score} />
-            <Category title="Estructura" score={feedback.structure.score} />
-            <Category title="Habilidades" score={feedback.skills.score} />
-        </div>
-    );
-};
-
-export default Summary;
+      </div>
+      <ul className="divide-y border-t">
+        {CATEGORY_KEYS.map((key) => {
+          const score = feedback[key]?.score ?? 0;
+          return (
+            <li key={key} className="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-2 px-6 py-4 sm:grid-cols-[10rem_1fr_auto]">
+              <span className="text-sm font-medium">{r.categories[key]}</span>
+              <ScoreBar score={score} className="col-span-2 row-start-2 sm:col-span-1 sm:row-start-auto" />
+              <ScoreValue score={score} className="text-sm" />
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}

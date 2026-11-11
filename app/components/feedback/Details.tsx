@@ -1,165 +1,60 @@
+import { CaretDownIcon } from "@phosphor-icons/react";
+import { ScoreLabel, ScoreValue, TipIcon } from "@/components/score";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionHeader,
-    AccordionItem,
-} from "../Accordion";
-import {Card, CardContent, CardHeader} from "@/components/ui/card";
+import { CATEGORY_KEYS } from "./Summary";
 
-const ScoreBadge = ({ score }: { score: number }) => {
-    return (
-        <div
-            className={cn(
-                "flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]",
-                score > 69
-                    ? "bg-[#d5faf1]"
-                    : score > 49
-                        ? "bg-[#fceed8]"
-                        : "bg-[#f9e3e2]"
-            )}
-        >
-            <img
-                src={score > 69 ? "/icons/check.svg" : "/icons/warning.svg"}
-                alt="score"
-                className="size-4"
-            />
-            <p
-                className={cn(
-                    "text-sm font-medium",
-                    score > 69
-                        ? "text-[#254d4a]"
-                        : score > 49
-                            ? "text-[#73321b]"
-                            : "text-[#752522]"
-                )}
-            >
-                {score}/100
-            </p>
-        </div>
-    );
-};
+type Tip = { type: "good" | "improve"; tip: string; explanation: string };
 
-const CategoryHeader = ({
-                            title,
-                            categoryScore,
-                        }: {
-    title: string;
-    categoryScore: number;
-}) => {
-    return (
-        <div className="flex flex-row gap-4 items-center py-2">
-            <p className="text-2xl font-semibold">{title}</p>
-            <ScoreBadge score={categoryScore} />
-        </div>
-    );
-};
+export default function Details({ feedback }: { feedback: Feedback }) {
+  const { t } = useI18n();
+  const r = t.resume;
 
-const CategoryContent = ({
-                             tips,
-                         }: {
-    tips: { type: "good" | "improve"; tip: string; explanation: string }[];
-}) => {
-    return (
-        <div className="flex flex-col gap-4 items-center w-full">
-            <div className="w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
-                {tips.map((tip, index) => (
-                    <div className="flex flex-row gap-2 items-center" key={index}>
-                        <img
-                            src={
-                                tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
-                            }
-                            alt="score"
-                            className="size-5"
-                        />
-                        <p className="text-xl text-gray-500 ">{tip.tip}</p>
-                    </div>
-                ))}
-            </div>
-            <div className="flex flex-col gap-4 w-full">
-                {tips.map((tip, index) => (
-                    <Card
-                        key={index + tip.tip}
-                        className={cn(
-                            "flex flex-col gap-2 rounded-2xl p-4",
-                            tip.type === "good"
-                                ? "bg-green-50 border border-green-200 text-green-700"
-                                : "bg-yellow-50 border border-yellow-200 text-yellow-700"
+  return (
+    <section>
+      <h2 className="font-display text-3xl">{r.detailsTitle}</h2>
+      <div className="mt-6 divide-y overflow-hidden rounded-2xl border bg-card">
+        {CATEGORY_KEYS.map((key, i) => {
+          const category = feedback[key];
+          if (!category) return null;
+          return (
+            <details key={key} className="group" open={i === 0}>
+              <summary className="flex cursor-pointer list-none items-center gap-4 px-6 py-5 transition-colors hover:bg-accent/50 [&::-webkit-details-marker]:hidden">
+                <span className="flex-1 font-medium">{r.categories[key]}</span>
+                <ScoreLabel score={category.score} className="hidden sm:inline-flex" />
+                <ScoreValue score={category.score} className="text-sm" />
+                <CaretDownIcon className="size-4 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
+              </summary>
+              <ul className="space-y-3 px-6 pb-6">
+                {(category.tips as Tip[]).map((tip, j) => (
+                  <li
+                    key={j}
+                    className={cn(
+                      "rounded-xl border p-4",
+                      tip.type === "good" ? "border-success/25 bg-success-soft/50" : "border-warning/25 bg-warning-soft/50"
+                    )}
+                  >
+                    <div className="flex items-start gap-3">
+                      <TipIcon type={tip.type} />
+                      <div className="min-w-0">
+                        <p className="font-medium text-pretty">
+                          <span className="sr-only">{tip.type === "good" ? r.good : r.improve}: </span>
+                          {tip.tip}
+                        </p>
+                        {tip.explanation && (
+                          <p className="mt-1.5 text-sm leading-relaxed text-pretty text-muted-foreground">
+                            {tip.explanation}
+                          </p>
                         )}
-                    >
-                        <CardHeader className={"flex items-center gap-2"}>
-                            <img
-                                src={
-                                    tip.type === "good"
-                                        ? "/icons/check.svg"
-                                        : "/icons/warning.svg"
-                                }
-                                alt="score"
-                                className="size-5"
-                            />
-                            <p className="text-pretty text-xl font-semibold">{tip.tip}</p>
-                        </CardHeader>
-                        <CardContent>
-                            <p className={"text-pretty"}>{tip.explanation}</p>
-                        </CardContent>
-                    </Card>
+                      </div>
+                    </div>
+                  </li>
                 ))}
-            </div>
-        </div>
-    );
-};
-
-const Details = ({ feedback }: { feedback: Feedback }) => {
-    return (
-        <div className="flex flex-col gap-4 w-full">
-            <Accordion>
-                <AccordionItem id="tone-style">
-                    <AccordionHeader itemId="tone-style">
-                        <CategoryHeader
-                            title="Tono & Estilo"
-                            categoryScore={feedback.toneAndStyle.score}
-                        />
-                    </AccordionHeader>
-                    <AccordionContent itemId="tone-style">
-                        <CategoryContent tips={feedback.toneAndStyle.tips} />
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem id="content">
-                    <AccordionHeader itemId="content">
-                        <CategoryHeader
-                            title="Contenido"
-                            categoryScore={feedback.content.score}
-                        />
-                    </AccordionHeader>
-                    <AccordionContent itemId="content">
-                        <CategoryContent tips={feedback.content.tips} />
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem id="structure">
-                    <AccordionHeader itemId="structure">
-                        <CategoryHeader
-                            title="Estructura"
-                            categoryScore={feedback.structure.score}
-                        />
-                    </AccordionHeader>
-                    <AccordionContent itemId="structure">
-                        <CategoryContent tips={feedback.structure.tips} />
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem id="skills">
-                    <AccordionHeader itemId="skills">
-                        <CategoryHeader
-                            title="Habilidades"
-                            categoryScore={feedback.skills.score}
-                        />
-                    </AccordionHeader>
-                    <AccordionContent itemId="skills">
-                        <CategoryContent tips={feedback.skills.tips} />
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </div>
-    );
-};
-
-export default Details;
+              </ul>
+            </details>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

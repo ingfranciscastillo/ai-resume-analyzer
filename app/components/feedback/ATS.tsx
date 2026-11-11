@@ -1,59 +1,48 @@
-import { cn } from "@/lib/utils";
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import { RobotIcon } from "@phosphor-icons/react";
+import { ScoreLabel, ScoreValue, TipIcon } from "@/components/score";
+import { useI18n } from "@/lib/i18n";
 
-const ATS = ({
-                 score,
-                 suggestions,
-             }: {
-    score: number;
-    suggestions: { type: "good" | "improve"; tip: string }[];
-}) => {
-    return (
-        <Card>
-            <CardHeader className="flex flex-row gap-4 items-center">
-                <img
-                    src={
-                        score > 69
-                            ? "/icons/ats-good.svg"
-                            : score > 49
-                                ? "/icons/ats-warning.svg"
-                                : "/icons/ats-bad.svg"
-                    }
-                    alt="ATS"
-                    className="w-10 h-10"
-                />
-                <CardTitle className="text-2xl font-semibold text-muted-foreground">ATS Score - {score}/100</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-2">
-                <p className="font-medium text-xl text-foreground">
-                    ¿Qué tan bien pasa tu currículum por los Sistemas de Seguimiento de Candidatos (ATS)?
-                </p>
-                <p className="text-lg text-muted-foreground">
-                    Tu currículum fue analizado como lo haría un empleador. Así fue su desempeño:
-                </p>
-                {suggestions.map((suggestion, index) => (
-                    <div className="flex flex-row gap-2 items-center" key={index}>
-                        <img
-                            src={
-                                suggestion.type === "good"
-                                    ? "/icons/check.svg"
-                                    : "/icons/warning.svg"
-                            }
-                            alt="ATS"
-                            className="w-4 h-4"
-                        />
-                        <p className="text-lg text-muted-foreground">{suggestion.tip}</p>
-                    </div>
-                ))}
+export default function ATS({
+  score,
+  suggestions,
+}: {
+  score: number;
+  suggestions: { type: "good" | "improve"; tip: string }[];
+}) {
+  const { t } = useI18n();
+  const r = t.resume;
 
-            </CardContent>
-            <CardFooter>
-                <p className="text-lg text-muted-foreground">
-                    ¿Quieres una mejor puntuación? Mejora tu currículum aplicando las sugerencias listadas a continuación.
-                </p>
-            </CardFooter>
-        </Card>
-    );
-};
+  return (
+    <section className="rounded-2xl border bg-card p-6">
+      <div className="flex items-start gap-4">
+        <div className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted">
+          <RobotIcon className="size-6" weight="duotone" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-lg font-medium">{r.atsTitle}</h2>
+            <ScoreValue score={score} className="text-lg" />
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <ScoreLabel score={score} />
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground">{r.atsBody}</p>
+        </div>
+      </div>
 
-export default ATS;
+      {suggestions.length > 0 && (
+        <ul className="mt-6 space-y-3 border-t pt-6">
+          {suggestions.map((s, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm">
+              <TipIcon type={s.type} />
+              <span className="sr-only">{s.type === "good" ? r.good : r.improve}:</span>
+              <span>{s.tip}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <p className="mt-6 text-sm text-muted-foreground">{r.atsFooter}</p>
+    </section>
+  );
+}
