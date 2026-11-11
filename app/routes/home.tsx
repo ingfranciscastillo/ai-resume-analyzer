@@ -1,100 +1,147 @@
+import { Link } from "react-router";
+import {
+  ArrowRightIcon,
+  ChartBarIcon,
+  CheckIcon,
+  ClockCounterClockwiseIcon,
+  GaugeIcon,
+  LightbulbIcon,
+  ShieldCheckIcon,
+  TargetIcon,
+} from "@phosphor-icons/react";
 import type { Route } from "./+types/home";
-import HeroSection from "@/components/layout/HeroSection";
-import ResumeCard from "@/components/layout/ResumeCard";
-import { usePuterStore } from "@/lib/puter";
-import { Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import Navbar from "@/components/layout/navbar";
 import FooterSection from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import FeaturesSection from "@/components/layout/FeaturesSection";
-import WallOfLoveSection from "@/components/layout/TestimonialSection";
+import { ReportMockup } from "@/components/landing/ReportMockup";
+import { metaDictionary, useI18n } from "@/lib/i18n";
+import { usePuterStore } from "@/lib/puter";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ matches }: Route.MetaArgs) {
+  const t = metaDictionary(matches);
   return [
-    { title: "ResumeSense" },
-    { name: "description", content: "Welcome to ResumeSense!" },
+    { title: t.meta.homeTitle },
+    { name: "description", content: t.meta.homeDescription },
+    { property: "og:title", content: t.meta.homeTitle },
+    { property: "og:description", content: t.meta.homeDescription },
   ];
 }
 
+const featureIcons = [GaugeIcon, TargetIcon, ChartBarIcon, LightbulbIcon, ClockCounterClockwiseIcon, ShieldCheckIcon];
+
 export default function Home() {
-  const { isLoading, auth, kv } = usePuterStore();
-  const navigate = useNavigate();
-
-  const [resumes, setResumes] = useState<Resume[]>([]);
-  const [loadingResumes, setLoadingResumes] = useState(false);
-
-  useEffect(() => {
-    if (!auth.isAuthenticated) navigate("/auth?next=/");
-  }, [auth.isAuthenticated]);
-
-  useEffect(() => {
-    const loadResumes = async () => {
-      setLoadingResumes(true);
-
-      const resumes = (await kv.list("resume:*", true)) as KVItem[];
-
-      const parsedResumes = resumes?.map(
-        (resume) => JSON.parse(resume.value) as Resume
-      );
-
-      setResumes(parsedResumes || []);
-      setLoadingResumes(false);
-    };
-
-    loadResumes();
-  }, []);
+  const { t } = useI18n();
+  const { auth } = usePuterStore();
+  const l = t.landing;
+  const primaryHref = auth.isAuthenticated ? "/upload" : "/auth?next=/upload";
 
   return (
     <>
-      <HeroSection />
-      {auth.isAuthenticated ? (
-        !loadingResumes && resumes?.length === 0 ? (
-          <section className="py-16 md:py-32 relative z-50">
-            <div className="mx-auto max-w-5xl rounded-3xl border px-6 py-12 lg:py-32">
-              <div className="text-center">
-                <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
-                  No se encontró ningún currículum.
-                </h2>
-                <p className="mt-4 truncate">
-                  Aún no has creado ninguna reseña. Comienza subiendo tu primer
-                  currículum para recibir una evaluación.
-                </p>
-
-                <div className="mt-12 flex flex-wrap justify-center gap-4">
-                  <Button asChild size="lg">
-                    <Link to="/upload">
-                      <span>Subir currículum</span>
-                    </Link>
-                  </Button>
-                </div>
+      <Navbar />
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden">
+          <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-4 pt-12 pb-20 sm:px-6 md:pt-20 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:pb-28">
+            <div className="animate-rise">
+              <p className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs text-muted-foreground">
+                <span className="size-1.5 rounded-full bg-brand" />
+                {l.eyebrow}
+              </p>
+              <h1 className="font-display mt-6 text-[clamp(2.75rem,7vw,5.25rem)] text-balance">
+                {l.titleA} <em className="text-brand">{l.titleAccent}</em> {l.titleB}
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-muted-foreground">{l.subtitle}</p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg" className="h-12 px-6 text-[15px]">
+                  <Link to={primaryHref}>
+                    {l.ctaPrimary}
+                    <ArrowRightIcon />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="h-12 px-6 text-[15px]">
+                  <a href="#how-it-works">{l.ctaSecondary}</a>
+                </Button>
               </div>
+              <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                {l.trust.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <CheckIcon className="size-4 text-brand-text" weight="bold" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </section>
-        ) : null
-      ) : null}
-      {auth.isAuthenticated && loadingResumes && (
-        <div className="flex flex-col items-center justify-center">
-          <img
-            src="/images/resume-scan-2.gif"
-            className="w-[200px]"
-            alt={"loading"}
-          />
-        </div>
-      )}
-      {!loadingResumes && resumes.length > 0 && (
-        <section className="py-16 md:py-32 relative z-50">
-          <div className="mx-auto max-w-7xl space-y-8 px-6 md:space-y-16">
-            <div className="flex flex-wrap max-lg:flex-col gap-6 items-start w-full max-w-[1850px] justify-evenly">
-              {resumes.map((resume) => (
-                <ResumeCard key={resume.id} resume={resume} />
-              ))}
+            <div className="animate-rise [animation-delay:150ms]">
+              <ReportMockup />
             </div>
           </div>
         </section>
-      )}
-      <FeaturesSection />
-      <WallOfLoveSection />
+
+        {/* How it works */}
+        <section id="how-it-works" className="scroll-mt-20 border-t">
+          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+            <SectionHeading eyebrow={l.howEyebrow} title={l.howTitle} />
+            <ol className="mt-14 grid gap-px overflow-hidden rounded-2xl border bg-border md:grid-cols-3">
+              {l.steps.map((step, i) => (
+                <li key={step.title} className="bg-background p-8">
+                  <span className="font-display text-5xl text-brand">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-6 text-lg font-medium">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section id="features" className="scroll-mt-20 border-t bg-card">
+          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+            <SectionHeading eyebrow={l.featuresEyebrow} title={l.featuresTitle} />
+            <ul className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {l.features.map((feature, i) => {
+                const Icon = featureIcons[i];
+                return (
+                  <li key={feature.title}>
+                    <div className="grid size-11 place-items-center rounded-xl border bg-background">
+                      <Icon className="size-[22px] text-brand-text" weight="duotone" />
+                    </div>
+                    <h3 className="mt-5 font-medium">{feature.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="px-4 py-20 sm:px-6 md:py-28">
+          <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl bg-foreground px-6 py-16 text-background sm:px-12 md:py-20">
+            <div className="absolute -top-24 -right-24 size-72 rounded-full bg-brand/30 blur-3xl" />
+            <div className="relative max-w-2xl">
+              <h2 className="font-display text-4xl text-balance md:text-6xl">{l.ctaTitle}</h2>
+              <p className="mt-4 text-lg opacity-70">{l.ctaBody}</p>
+              <Button asChild size="lg" className="mt-8 h-12 bg-brand px-6 text-[15px] text-brand-foreground hover:bg-brand/90">
+                <Link to={primaryHref}>
+                  {l.ctaPrimary}
+                  <ArrowRightIcon />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </main>
       <FooterSection />
     </>
+  );
+}
+
+function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="max-w-2xl">
+      <p className="font-mono text-xs uppercase tracking-wider text-brand-text">{eyebrow}</p>
+      <h2 className="font-display mt-4 text-4xl text-balance md:text-5xl">{title}</h2>
+    </div>
   );
 }
