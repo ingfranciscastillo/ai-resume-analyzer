@@ -238,7 +238,6 @@ const es = {
     legal: "Tus datos",
     deleteData: "Borrar mis datos",
     rights: (year: number) => `© ${year} ResumeSense`,
-    madeWith: "Hecho con Puter.js",
   },
   errors: {
     notFoundTitle: "Página no encontrada",
@@ -490,7 +489,6 @@ const en: Dictionary = {
     legal: "Your data",
     deleteData: "Delete my data",
     rights: (year: number) => `© ${year} ResumeSense`,
-    madeWith: "Built with Puter.js",
   },
   errors: {
     notFoundTitle: "Page not found",
