@@ -38,6 +38,7 @@ Upload your resume as a PDF, add the job you're applying for, and ResumeSense re
 ### Prerequisites
 
 - [Node.js](https://nodejs.org) 22.22 or later (an `.nvmrc` is included)
+- [pnpm](https://pnpm.io) 12, enabled through Corepack (`corepack enable pnpm`)
 - A free [Puter](https://puter.com) account to sign in to the app
 
 ### Run locally
@@ -46,8 +47,9 @@ Upload your resume as a PDF, add the job you're applying for, and ResumeSense re
 git clone https://github.com/ingfranciscastillo/ai-resume-analyzer.git
 cd ai-resume-analyzer
 nvm use
-npm install
-npm run dev
+corepack enable pnpm
+pnpm install
+pnpm dev
 ```
 
 Open http://localhost:5173 and sign in with Puter to analyze a resume.
@@ -59,10 +61,10 @@ Open http://localhost:5173 and sign in with Puter to analyze a resume.
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the dev server with HMR |
-| `npm run typecheck` | Generate route types and run TypeScript |
-| `npm run build` | Build for production |
-| `npm run start` | Serve the production build |
+| `pnpm dev` | Start the dev server with HMR |
+| `pnpm typecheck` | Generate route types and run TypeScript |
+| `pnpm build` | Build for production |
+| `pnpm start` | Serve the production build |
 
 ## How it works
 

@@ -38,6 +38,7 @@ Sube tu CV en PDF, indica el puesto al que aplicas y ResumeSense te devuelve una
 ### Requisitos
 
 - [Node.js](https://nodejs.org) 22.22 o superior (incluye un `.nvmrc`)
+- [pnpm](https://pnpm.io) 12, activado con Corepack (`corepack enable pnpm`)
 - Una cuenta gratuita de [Puter](https://puter.com) para iniciar sesión en la app
 
 ### Ejecutar en local
@@ -46,8 +47,9 @@ Sube tu CV en PDF, indica el puesto al que aplicas y ResumeSense te devuelve una
 git clone https://github.com/ingfranciscastillo/ai-resume-analyzer.git
 cd ai-resume-analyzer
 nvm use
-npm install
-npm run dev
+corepack enable pnpm
+pnpm install
+pnpm dev
 ```
 
 Abre http://localhost:5173 e inicia sesión con Puter para analizar un CV.
@@ -59,10 +61,10 @@ Abre http://localhost:5173 e inicia sesión con Puter para analizar un CV.
 
 | Comando | Descripción |
 | --- | --- |
-| `npm run dev` | Inicia el servidor de desarrollo con HMR |
-| `npm run typecheck` | Genera los tipos de las rutas y ejecuta TypeScript |
-| `npm run build` | Compila para producción |
-| `npm run start` | Sirve la build de producción |
+| `pnpm dev` | Inicia el servidor de desarrollo con HMR |
+| `pnpm typecheck` | Genera los tipos de las rutas y ejecuta TypeScript |
+| `pnpm build` | Compila para producción |
+| `pnpm start` | Sirve la build de producción |
 
 ## Cómo funciona
 

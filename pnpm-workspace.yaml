@@ -1,0 +1,9 @@
+# rolldown 1.2.18 crashes with "Illegal instruction" on CPUs without AVX;
+# 1.2.19 fixes it. Remove the override once a newer vite depends on >=1.2.19.
+overrides:
+  rolldown: 1.2.19
+
+minimumReleaseAgeExclude:
+  - vite@8.3.8
+  - rolldown@1.2.19
+  - '@rolldown/binding-*'
