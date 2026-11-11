@@ -36,7 +36,7 @@ Una aplicación moderna y potente que utiliza inteligencia artificial para anali
 
 ### Requisitos Previos
 
-- Node.js 18+ instalado
+- Node.js 22.22+ instalado (hay un `.nvmrc`: ejecuta `nvm use`)
 - npm o pnpm
 - Git
 
