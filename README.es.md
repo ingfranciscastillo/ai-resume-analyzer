@@ -11,6 +11,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A522.22-5FA04E?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org)
 [![Último commit](https://img.shields.io/github/last-commit/ingfranciscastillo/ai-resume-analyzer?style=flat-square)](https://github.com/ingfranciscastillo/ai-resume-analyzer/commits/main)
+[![Licencia: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 [English](README.md) · **Español**
 
