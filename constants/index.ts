@@ -137,10 +137,12 @@ export const AIResponseFormat = `
 
 export const prepareInstructions = ({
                                         jobTitle,
-                                        jobDescription
+                                        jobDescription,
+                                        lang = "es",
                                     }: {
     jobTitle: string;
     jobDescription: string;
+    lang?: "es" | "en";
 }) =>
     `Eres un experto en ATS (Sistema de Seguimiento de Candidatos) y análisis de currículums.
     Por favor, analiza y califica este currículum y sugiere cómo mejorarlo.
@@ -156,4 +158,7 @@ export const prepareInstructions = ({
     Proporciona la retroalimentación usando el siguiente formato: ${AIResponseFormat}
     
     Devuelve el análisis como un objeto JSON, sin ningún otro texto y sin las comillas invertidas.
-    No incluyas ningún otro texto o comentario.`;
+    No incluyas ningún otro texto o comentario.
+    ${lang === "en"
+        ? "IMPORTANTE: escribe todos los textos del JSON (tip y explanation) en inglés."
+        : "IMPORTANTE: escribe todos los textos del JSON (tip y explanation) en español."}`;
