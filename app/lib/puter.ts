@@ -96,6 +96,12 @@ interface PuterStore {
     clearError: () => void;
 }
 
+/**
+ * Model used to analyze resumes. Must be an id from `puter.ai.listModels()`;
+ * Puter rejects retired ids with "Model not found".
+ */
+export const AI_MODEL = "claude-sonnet-5-5";
+
 const getPuter = (): typeof window.puter | null =>
     typeof window !== "undefined" && window.puter ? window.puter : null;
 
@@ -350,7 +356,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
                     ],
                 },
             ],
-            { model: "claude-sonnet-4" }
+            { model: AI_MODEL }
         ) as Promise<AIResponse | undefined>;
     };
 
