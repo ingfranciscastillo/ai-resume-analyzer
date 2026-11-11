@@ -1,80 +1,72 @@
-import React, { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-type Theme = "dark" | "light" | "system"
+export type Theme = "light" | "dark" | "system";
+type Resolved = "light" | "dark";
 
-type ThemeProviderProps = {
-    children: React.ReactNode
-    defaultTheme?: Theme
-    storageKey?: string
+export const THEME_STORAGE_KEY = "resumesense-theme";
+
+/**
+ * Runs before React hydrates (inlined in <head>) so the right theme is painted
+ * on the first frame, with no light/dark flash.
+ */
+export const themeInitScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);}catch(e){}})();`;
+
+type ThemeState = {
+  theme: Theme;
+  resolvedTheme: Resolved;
+  setTheme: (theme: Theme) => void;
+};
+
+const ThemeContext = createContext<ThemeState | null>(null);
+
+function systemTheme(): Resolved {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-type ThemeProviderState = {
-    theme: Theme
-    setTheme: (theme: Theme) => void
-}
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setThemeState] = useState<Theme>("system");
+  const [resolvedTheme, setResolved] = useState<Resolved>("light");
 
-const initialState: ThemeProviderState = {
-    theme: "system",
-    setTheme: () => null,
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
-
-export function ThemeProvider({
-                                  children,
-                                  defaultTheme = "system",
-                                  storageKey = "vite-ui-theme",
-                                  ...props
-                              }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>(defaultTheme)
-
-    // 🔥 cargar desde localStorage de forma segura
-    useEffect(() => {
-        if (typeof window === "undefined") return
-
-        const stored = localStorage.getItem(storageKey) as Theme | null
-        if (stored) setTheme(stored)
-    }, [])
-
-    // 🔥 aplicar clases cuando cambia el theme
-    useEffect(() => {
-        if (typeof window === "undefined") return
-
-        const root = document.documentElement
-        root.classList.remove("light", "dark")
-
-        if (theme === "system") {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light"
-            root.classList.add(systemTheme)
-            return
-        }
-
-        root.classList.add(theme)
-    }, [theme])
-
-    const value = {
-        theme,
-        setTheme: (theme: Theme) => {
-            if (typeof window !== "undefined") {
-                localStorage.setItem(storageKey, theme)
-            }
-            setTheme(theme)
-        },
+  // Load the saved preference after hydration.
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+      if (stored === "light" || stored === "dark" || stored === "system") setThemeState(stored);
+    } catch {
+      /* storage unavailable */
     }
+  }, []);
 
-    return (
-        <ThemeProviderContext.Provider {...props} value={value}>
-            {children}
-        </ThemeProviderContext.Provider>
-    )
+  // Resolve "system" and follow OS changes live.
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const apply = () => setResolved(theme === "system" ? systemTheme() : theme);
+    apply();
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, [theme]);
+
+  // The <html> class is owned here (not by React's className prop) so
+  // re-renders and hydration can never strip it.
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+  }, [resolvedTheme]);
+
+  const setTheme = useCallback((next: Theme) => {
+    setThemeState(next);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, next);
+    } catch {
+      /* storage unavailable */
+    }
+  }, []);
+
+  const value = useMemo(() => ({ theme, resolvedTheme, setTheme }), [theme, resolvedTheme, setTheme]);
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
-export const useTheme = () => {
-    const context = useContext(ThemeProviderContext)
-    if (context === undefined) {
-        throw new Error("useTheme must be used within a ThemeProvider")
-    }
-    return context
+export function useTheme() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
+  return ctx;
 }
