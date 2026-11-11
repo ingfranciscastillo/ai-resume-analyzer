@@ -5,13 +5,11 @@ import Navbar from "@/components/layout/navbar";
 import FooterSection from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { publicMeta } from "@/lib/seo";
 
 export function meta({ matches }: Route.MetaArgs) {
   const t = metaDictionary(matches);
-  return [
-    { title: t.meta.aboutTitle },
-    { name: "description", content: t.about.body },
-  ];
+  return publicMeta(matches, { title: t.meta.aboutTitle, description: t.about.body, path: "/about" });
 }
 
 export default function About() {
@@ -21,7 +19,7 @@ export default function About() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <main id="main-content" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
         <div className="max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-wider text-brand-text">{a.eyebrow}</p>
           <h1 className="font-display mt-4 text-5xl text-balance md:text-7xl">{a.title}</h1>

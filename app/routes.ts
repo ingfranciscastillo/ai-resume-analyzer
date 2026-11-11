@@ -8,4 +8,6 @@ export default [
   route("/upload", "routes/upload.tsx"),
   route("/resume/:id", "routes/resume.tsx"),
   route("/wipe", "routes/wipe.tsx"),
+  route("/robots.txt", "routes/robots[.]txt.ts"),
+  route("/sitemap.xml", "routes/sitemap[.]xml.ts"),
 ] satisfies RouteConfig;

@@ -6,10 +6,11 @@ import FooterSection from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { usePuterStore } from "@/lib/puter";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { privateMeta } from "@/lib/seo";
 import { useRequireAuth } from "@/lib/use-require-auth";
 
 export function meta({ matches }: Route.MetaArgs) {
-  return [{ title: metaDictionary(matches).meta.wipeTitle }];
+  return privateMeta(metaDictionary(matches).meta.wipeTitle);
 }
 
 export default function Wipe() {
@@ -44,7 +45,7 @@ export default function Wipe() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto min-h-[70svh] max-w-2xl px-4 py-16 sm:px-6 md:py-24">
+      <main id="main-content" className="mx-auto min-h-[70svh] max-w-2xl px-4 py-16 sm:px-6 md:py-24">
         <div className="grid size-12 place-items-center rounded-xl bg-danger-soft text-danger">
           <TrashIcon className="size-6" weight="duotone" />
         </div>

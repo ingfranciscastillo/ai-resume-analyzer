@@ -8,10 +8,11 @@ import ResumeCard from "@/components/layout/ResumeCard";
 import { Button } from "@/components/ui/button";
 import { usePuterStore } from "@/lib/puter";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { privateMeta } from "@/lib/seo";
 import { useRequireAuth } from "@/lib/use-require-auth";
 
 export function meta({ matches }: Route.MetaArgs) {
-  return [{ title: metaDictionary(matches).meta.dashboardTitle }];
+  return privateMeta(metaDictionary(matches).meta.dashboardTitle);
 }
 
 export default function Dashboard() {
@@ -42,7 +43,7 @@ export default function Dashboard() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto min-h-[70svh] max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+      <main id="main-content" className="mx-auto min-h-[70svh] max-w-6xl px-4 py-12 sm:px-6 md:py-16">
         <div className="flex flex-col gap-6 border-b pb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-mono text-xs uppercase tracking-wider text-brand-text">{d.eyebrow}</p>

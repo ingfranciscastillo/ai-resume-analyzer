@@ -15,15 +15,24 @@ import FooterSection from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { ReportMockup } from "@/components/landing/ReportMockup";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { publicMeta } from "@/lib/seo";
 import { usePuterStore } from "@/lib/puter";
 
 export function meta({ matches }: Route.MetaArgs) {
   const t = metaDictionary(matches);
   return [
-    { title: t.meta.homeTitle },
-    { name: "description", content: t.meta.homeDescription },
-    { property: "og:title", content: t.meta.homeTitle },
-    { property: "og:description", content: t.meta.homeDescription },
+    ...publicMeta(matches, { title: t.meta.homeTitle, description: t.meta.homeDescription, path: "/" }),
+    {
+      "script:ld+json": {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: "ResumeSense",
+        description: t.meta.homeDescription,
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      },
+    },
   ];
 }
 
@@ -38,7 +47,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content">
         {/* Hero */}
         <section className="relative overflow-hidden">
           <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />

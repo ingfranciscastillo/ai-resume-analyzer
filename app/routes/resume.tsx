@@ -10,10 +10,11 @@ import Details from "@/components/feedback/Details";
 import { Button } from "@/components/ui/button";
 import { usePuterStore } from "@/lib/puter";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { privateMeta } from "@/lib/seo";
 import { useRequireAuth } from "@/lib/use-require-auth";
 
 export function meta({ matches }: Route.MetaArgs) {
-  return [{ title: metaDictionary(matches).meta.resumeTitle }];
+  return privateMeta(metaDictionary(matches).meta.resumeTitle);
 }
 
 type ResumeData = Resume & { jobDescription?: string };
@@ -66,7 +67,7 @@ export default function ResumePage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:py-14">
+      <main id="main-content" className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:py-14">
         <Button asChild variant="ghost" size="sm" className="-ml-2">
           <Link to="/dashboard">
             <ArrowLeftIcon />

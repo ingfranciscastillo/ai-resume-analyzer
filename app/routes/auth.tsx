@@ -8,9 +8,10 @@ import { LanguageSwitch, ThemeToggle } from "@/components/layout/controls";
 import { ScoreRing } from "@/components/score";
 import { usePuterStore } from "@/lib/puter";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { privateMeta } from "@/lib/seo";
 
 export function meta({ matches }: Route.MetaArgs) {
-  return [{ title: metaDictionary(matches).meta.authTitle }];
+  return privateMeta(metaDictionary(matches).meta.authTitle);
 }
 
 /** Only allow same-site relative paths as redirect targets. */
@@ -51,7 +52,7 @@ export default function LoginPage() {
       </aside>
 
       {/* Sign-in */}
-      <main className="flex flex-col px-4 py-6 sm:px-8">
+      <main id="main-content" className="flex flex-col px-4 py-6 sm:px-8">
         <div className="flex items-center justify-between">
           <Button asChild variant="ghost" size="sm" className="-ml-2">
             <Link to="/">

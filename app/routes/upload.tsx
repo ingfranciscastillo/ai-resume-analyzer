@@ -13,11 +13,12 @@ import { usePuterStore } from "@/lib/puter";
 import { convertPdfToImage } from "@/lib/pdf2img";
 import { cn, generateUUID } from "@/lib/utils";
 import { metaDictionary, useI18n } from "@/lib/i18n";
+import { privateMeta } from "@/lib/seo";
 import { useRequireAuth } from "@/lib/use-require-auth";
 import { prepareInstructions } from "../../constants";
 
 export function meta({ matches }: Route.MetaArgs) {
-  return [{ title: metaDictionary(matches).meta.uploadTitle }];
+  return privateMeta(metaDictionary(matches).meta.uploadTitle);
 }
 
 const STEPS = ["upload", "convert", "uploadImage", "prepare", "analyze", "done"] as const;
@@ -127,7 +128,7 @@ export default function Upload() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+      <main id="main-content" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
         {processing ? (
           <section className="mx-auto max-w-lg py-8" aria-live="polite">
             <p className="font-mono text-xs uppercase tracking-wider text-brand-text">{u.eyebrow}</p>
